@@ -1,0 +1,40 @@
+<div class="parent">
+  <mat-form-field style="width: 420px;" appearance="fill">
+    <mat-label>Select an expiry date..</mat-label>
+    <mat-select [(value)]="selectOption">
+      <mat-option value="1">Daily (3$)</mat-option>
+      <mat-option value="2">Weekly (15$)</mat-option>
+      <mat-option value="3">Monthly (30$)</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button
+    [disabled]="!this.selectOption"
+    (click)="openModal(template)"
+    mat-raised-button
+    style="background-color: green; width: 200px;margin-left: 105px;"
+    color="primary"
+  >
+    Generate
+  </button>
+  <ng-template #template>
+    <div class="modal-body text-center">
+      <p>Do you want to generate?</p>
+      <button
+        type="button"
+        mat-raised-button
+        class="btn btn-default"
+        (click)="confirm()"
+      >
+        Yes
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        class="btn btn-primary"
+        (click)="decline()"
+      >
+        No
+      </button>
+    </div>
+  </ng-template>
+</div>

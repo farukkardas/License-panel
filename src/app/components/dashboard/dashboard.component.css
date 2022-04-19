@@ -1,0 +1,68 @@
+#mainBody {
+  margin-left: 320px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+.mat-elevation-z8{
+  background-color:  #f0f0f5;
+}
+
+.col {
+  margin-top: 20px;
+}
+
+.container{
+  margin-left: 80px;
+  padding-top: 20px;
+}
+
+.p-5 {
+  border-radius: 10px;
+  height: 180px;
+  width: 280px;
+}
+
+.first-box {
+  background-color: #cc33ff;
+}
+
+.second-box {
+  background-color:  #33adff;
+}
+
+.third-box {
+  background-color:    #ff9933;
+}
+
+.fourth-box {
+  background-color:  #ff8566;
+}
+
+.card-title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  color: cornsilk;
+  margin-top: -20px;
+  margin-left: -20px;
+}
+
+img {
+  margin-left: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+
+
+.sub-card{
+  width: 150px;
+  height: 40px;
+}
+
+.sub-card > p{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 18px;
+  color: white;
+  line-height: 220%;
+}

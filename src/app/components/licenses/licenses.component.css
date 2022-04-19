@@ -1,0 +1,57 @@
+#mainBody {
+  margin-left: 320px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.topbar {
+  padding-bottom: 2%;
+  margin-left: 1%;
+  padding-top: 7px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+
+
+.mat-raised-button{
+  margin-right: 15px;
+}
+
+.topbar > p{
+  margin: auto 0 auto auto;
+}
+
+.exportBar > input {
+  margin: auto 0 auto auto;
+
+}
+
+.title{
+  padding-left: 15px;
+  padding-top: 7px;
+}
+
+.exportBar{
+  margin-left: 1%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.exportBar > .mat-raised-button{
+  background-color: cornflowerblue;
+  color:white;
+}
+
+
+

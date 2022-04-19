@@ -1,0 +1,82 @@
+#sidebar {
+  background: #fff8dc;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  overflow-y: auto;
+  position: fixed;
+  width: 260px;
+}
+
+.dropdown-toggle::after {
+  display:none;
+}
+
+.fs-4{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#dropdownBasic1 {
+  background-color: none;
+  color: white;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: 0 !important;
+  box-shadow: none;
+  box-sizing: border-box;
+  bottom: 5px;
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: auto;
+  width: 250px;
+  height: 40px;
+}
+
+#dropdownBasic1:hover {
+  background-image: none;
+  background-color: grey;
+}
+
+button:active{
+  background-color: grey;
+}
+
+.dropdown-toggle::after {
+  vertical-align: .255em;}
+
+#main-content {
+  margin-left: 300px;
+}
+
+a:hover{
+  background-color: grey;
+  color: black;
+}
+
+a:active{
+  background-color: grey;
+}
+
+button{
+  height: 40;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+}
+
+button:hover{
+  background-color: grey;
+  color: black;
+}
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  #sidebar {
+    width: 200px;
+  }
+  #main-content {
+    margin-left: 200px;
+  }
+}
+

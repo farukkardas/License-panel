@@ -1,0 +1,210 @@
+<div id="mainBody">
+  <div class="mat-elevation-z8">
+    <div class="title">
+      <h2>Licenses</h2>
+    </div>
+
+    <div class="topbar">
+      <button
+        mat-raised-button
+        (click)="openGeneratePanel()"
+        style="background-color: green;"
+        color="primary"
+      >
+        Generate New Key
+      </button>
+      <button
+        mat-raised-button
+        (click)="openJustModal(hwidresettemplate)"
+        style="background-color: orange;"
+        color="primary"
+      >
+        Hwid Reset All Keys
+      </button>
+      <button
+        mat-raised-button
+        (click)="openJustModal(deletetemplate)"
+        style="background-color: red;"
+        color="primary"
+      >
+        Delete All Keys
+      </button>
+      
+
+      <p
+        #tasknote
+        style="padding-right: 120px;font-weight: 500;font-size: 16px;"
+      >
+        Balance: {{userBalance| currency}}
+      </p>
+    </div>
+
+    <div class="exportBar">
+      <button  mat-raised-button (click)="exporter.exportTable('csv',{fileName:'Licenses ' + myFormattedDate})">CSV</button>
+      <button mat-raised-button (click)="exporter.exportTable('xls',{fileName:'Licenses '+ myFormattedDate})">Excel</button>
+      <button mat-raised-button [cdkCopyToClipboard]="copyLicenses()">Copy JSON</button>
+      <button mat-raised-button (click)="exportPdf()">PDF</button>
+      <button mat-raised-button (click)="printTable()">Print</button>
+      <input  class="form-control"  style="margin-right: 120px;font-weight: 400;font-size: 16px; width: 240px; height: 40px;" type="text" placeholder="Search.." (keyup)="applyFilter($event.target.value)">
+    </div>
+
+    <table id="licenseTable"
+      [dataSource]="dataSource"
+      matTableExporter
+      #exporter="matTableExporter"
+      mat-table
+      matSort
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID.</th>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="authKey">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Key</th>
+        <td mat-cell *matCellDef="let element">{{element.authKey}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="hwid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>HWID</th>
+        <td mat-cell *matCellDef="let element">{{element.hwid}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ownerId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner ID</th>
+        <td mat-cell *matCellDef="let element">{{element.ownerId}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expirationDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Expiration Date
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{calculateDays(element.expirationDate)}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isOwned">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Used</th>
+        <td mat-cell *matCellDef="let element">
+          <img
+            style="width: 32px;" [alt]="element.isOwned"
+            [src]="checkLicenseStatus(element.isOwned)"
+          />
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hwid-reset">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            (click)="resetHwid(element.id)"
+            style="background-color: darkorange;"
+            color="warn"
+          >
+            HWID Reset
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            style="background-color: red;"
+            (click)="openModal(template,element.id)"
+            color="warn"
+          >
+            Delete
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div>
+      <p
+        style="text-align: center;margin-top: 30px;font-weight: 400;"
+        *ngIf="isEmpty"
+      >
+        No data found!
+      </p>
+    </div>
+    <mat-paginator
+      [pageSizeOptions]="[10, 20, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to delete?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="confirm()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #deletetemplate>
+      <div class="modal-body text-center">
+        <p style="color: red;font-weight: 600;">
+          [ WARNING - DELETE ALL KEYS ]
+        </p>
+        <p>Do you want to delete all keys?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="deleteAllKeys()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #hwidresettemplate>
+      <div class="modal-body text-center">
+        <p style="color: red;font-weight: 600;">[ WARNING - RESET ALL HWID ]</p>
+        <p>Do you want to reset all hwids?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="hwidResetAllKeys()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

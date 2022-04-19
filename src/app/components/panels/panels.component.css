@@ -1,0 +1,44 @@
+#mainBody {
+  margin-left: 320px;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.title {
+  padding-left: 15px;
+  padding-top: 7px;
+}
+
+.topbar {
+  padding-bottom: 2%;
+  margin-left: 1%;
+  padding-top: 7px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.topbar > p {
+  margin: auto 0 auto auto;
+}
+
+.exportBar {
+  margin-left: 1%;
+}
+
+.exportBar > .mat-raised-button {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.mat-raised-button{
+  margin-right: 15px;
+}

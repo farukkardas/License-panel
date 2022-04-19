@@ -1,0 +1,10 @@
+{
+    "/api": {
+    "target": "https://www.timeapi.io/",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+}
+}

@@ -1,0 +1,71 @@
+<div id="mainBody">
+  <div class="mat-elevation-z8" style="height: 900px;">
+    <div class="container overflow-hidden">
+      <div class="row gx-5">
+        <div class="col">
+          <div class="p-5 first-box border">
+            <div class="row card-title">
+              <h2>
+                Licenses
+                <img src="assets/key.png" alt="Auth Logo" />
+              </h2>
+            </div>
+            <div class="row sub-card">
+                <p>
+                  {{this.userInfo.licensesCount}} pieces
+                </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="p-5 second-box border">
+            <div class="row">
+              <h2 class="card-title">
+               Panels
+                <img src="assets/panel.png" alt="Auth Logo" />
+              </h2>
+            </div>
+            <div class="row sub-card">
+              <p>
+                {{this.userInfo.panelsCount}} pieces
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="p-5 third-box border">
+            <div class="row">
+              <h2 class="card-title">
+                Used Keys
+                <img src="assets/used-key.png" alt="Auth Logo" />
+              </h2>
+            </div>
+            <div class="row sub-card">
+                <p>
+                    {{this.userInfo.usedKeys}} pieces
+                </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="p-5 fourth-box border">
+            <div class="row">
+              <h2 class="card-title">
+                Unused Keys
+                <img src="assets/unused-key.png" alt="Auth Logo" />
+              </h2>
+            </div>
+            <div class="row sub-card">
+                <p>
+                    {{this.userInfo.unusedKeys}} pieces
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
