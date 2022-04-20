@@ -1,3 +1,39 @@
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  .licenses-container {
+    padding: 0;
+  }
+
+
+  #mainBody {
+    width: 100%;
+  }
+
+  table,
+  tbody {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .topbar {
+    display: inline-flex;
+  }
+
+  .exportBar{
+    margin-top: 30px;
+  }
+  .mat-raised-button {
+    margin-bottom: 10px;
+  }
+
+}
+
+
 #mainBody {
   margin-left: 320px;
   padding-top: 10px;

@@ -1,3 +1,16 @@
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+  #mainBody {
+    width: 50%;
+  }
+
+  #sidebar{
+    height: 100px
+  }
+}
+
 #sidebar {
   background: #fff8dc;
   top: 0;

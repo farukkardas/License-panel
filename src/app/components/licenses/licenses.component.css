@@ -1,3 +1,39 @@
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  .licenses-container {
+    padding: 0;
+  }
+
+
+  #mainBody {
+    width: 100%;
+  }
+
+  table,
+  tbody {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .topbar {
+    display: inline-flex;
+  }
+
+  .exportBar{
+    margin-top: 30px;
+  }
+  .mat-raised-button {
+    margin-bottom: 10px;
+  }
+
+}
+
+
 #mainBody {
   margin-left: 320px;
   padding-right: 20px;
@@ -6,6 +42,7 @@
 
 table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 th.mat-sort-header-sorted {
@@ -18,39 +55,35 @@ th.mat-sort-header-sorted {
   padding-top: 7px;
   flex-direction: row;
   flex-wrap: wrap;
-  display: flex;
 }
 
 
 
-.mat-raised-button{
+.mat-raised-button {
   margin-right: 15px;
 }
 
-.topbar > p{
+.topbar>p {
   margin: auto 0 auto auto;
 }
 
-.exportBar > input {
+.exportBar>input {
   margin: auto 0 auto auto;
 }
 
-.title{
+.title {
   padding-left: 15px;
   padding-top: 7px;
 }
 
-.exportBar{
+.exportBar {
   margin-left: 1%;
   flex-direction: row;
   flex-wrap: wrap;
   display: flex;
 }
 
-.exportBar > .mat-raised-button{
+.exportBar>.mat-raised-button {
   background-color: cornflowerblue;
-  color:white;
+  color: white;
 }
-
-
-

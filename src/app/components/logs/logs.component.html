@@ -8,7 +8,7 @@
         type="text" style="float:right"
         placeholder="Search.." (keyup)="applyFilter($event)">
     </div>
-    <table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" mat-table matSort>
+    <table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="table-responsive" mat-table matSort>
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID.</th>

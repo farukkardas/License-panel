@@ -1,8 +1,8 @@
 <div id="mainBody">
-  <div class="mat-elevation-z8" style="height: 900px;">
+  <div class="mat-elevation-z8">
     <div class="container overflow-hidden">
       <div class="row gx-5">
-        <div class="col">
+        <div class="col-md-3">
           <div class="p-5 first-box border">
             <div class="row card-title">
               <h2>
@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <div class="col">
+        <div class="col-md-3">
           <div class="p-5 second-box border">
             <div class="row">
               <h2 class="card-title">
@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <div class="col">
+        <div class="col-md-3">
           <div class="p-5 third-box border">
             <div class="row">
               <h2 class="card-title">
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="col">
+        <div class="col-md-3">
           <div class="p-5 fourth-box border">
             <div class="row">
               <h2 class="card-title">
@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-      <table
+      <table class="table-responsive"
       [dataSource]="dataSource"
       matTableExporter
       #exporter="matTableExporter"

@@ -18,7 +18,7 @@
         <input  class="form-control" style="margin-right: 80px;"  type="text" placeholder="Search.." (keyup)="applyFilter($event)">
 
       </div>
-       <table       matTableExporter
+       <table       matTableExporter class="table-responsive" 
        #exporter="matTableExporter" [dataSource]="dataSource" mat-table  matSort>
    
            <ng-container matColumnDef="id">

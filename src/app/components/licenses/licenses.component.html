@@ -33,7 +33,7 @@
 
       <p
         #tasknote
-        style="padding-right: 120px;font-weight: 500;font-size: 16px;"
+        style="padding-right: 20px;float: right;font-weight: 500;font-size: 16px;"
       >
         Balance: {{userBalance| currency}}
       </p>
@@ -54,6 +54,7 @@
       #exporter="matTableExporter"
       mat-table
       matSort
+      class="table-responsive"
     >
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID.</th>

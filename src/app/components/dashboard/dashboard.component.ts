@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.dataSource.sort = this.sort
         this.dataSource.paginator = this.paginator
       }, error: (responseError) => {
-        this.toastrService.error(responseError, "Error", { positionClass: 'toast-bottom-right' })
+        this.toastrService.error("Error when retrieving user logs!", "Error", { positionClass: 'toast-bottom-right' })
       }
     })
   }
