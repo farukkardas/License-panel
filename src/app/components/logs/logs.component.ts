@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,10 @@ import { LogService } from 'src/app/services/log.service';
   selector: 'app-logs',
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
+})
+
+@Injectable({
+  providedIn: 'root'
 })
 export class LogsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +54,12 @@ export class LogsComponent implements OnInit {
         return "assets/red_check.png"
       }
     }
+  }
+
+  //filter table by passing in the value of the search bar
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }

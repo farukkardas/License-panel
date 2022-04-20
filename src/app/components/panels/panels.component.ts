@@ -81,7 +81,6 @@ export class PanelsComponent implements OnInit {
       next: (response) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
-        console.log(error)
         this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
       }
     })
@@ -163,6 +162,10 @@ export class PanelsComponent implements OnInit {
     WindowPrt.print();
     WindowPrt.close();
   }
-
+ // filter MatTableDataSource by a key value
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }

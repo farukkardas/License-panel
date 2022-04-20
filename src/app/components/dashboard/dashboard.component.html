@@ -66,6 +66,59 @@
           </div>
         </div>
       </div>
+      <table
+      [dataSource]="dataSource"
+      matTableExporter
+      #exporter="matTableExporter"
+      mat-table
+      matSort
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID.</th>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
+        <td mat-cell *matCellDef="let element">{{element.message}}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="ownerId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User ID</th>
+        <td mat-cell *matCellDef="let element">{{element.ownerId}}</td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{element.date | date:'medium'}}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="success">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Success</th>
+        <td mat-cell *matCellDef="let element">   <img
+          style="width: 46px;" [alt]="element.isOwned"
+          [src]="checkLogStatus(element.success)"
+        /></td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div>
+      <p
+        style="text-align: center;margin-top: 30px;font-weight: 400;"
+        *ngIf="isEmpty"
+      >
+        No data found!
+      </p>
+    </div>
+    <mat-paginator
+      [pageSizeOptions]="[10, 20, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
     </div>
   </div>
 </div>

@@ -15,9 +15,9 @@
         <button mat-raised-button [cdkCopyToClipboard]="copyLicenses()">Copy JSON</button>
         <button mat-raised-button (click)="exportPdf()">PDF</button>
         <button mat-raised-button (click)="printTable()">Print</button>
+        <input  class="form-control" style="margin-right: 80px;"  type="text" placeholder="Search.." (keyup)="applyFilter($event)">
+
       </div>
-   
-   
        <table       matTableExporter
        #exporter="matTableExporter" [dataSource]="dataSource" mat-table  matSort>
    

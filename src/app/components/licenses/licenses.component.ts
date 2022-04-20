@@ -44,7 +44,7 @@ export class LicensesComponent implements OnInit {
   ngOnInit(): void {
     this.getLicenses()
     this.getUserDetails()
-    
+
   }
 
 
@@ -63,7 +63,7 @@ export class LicensesComponent implements OnInit {
         if (response.data.length <= 0) {
           this.isEmpty = true;
         }
-        else{
+        else {
           this.isEmpty = false;
         }
         this.licenses = response.data
@@ -71,7 +71,6 @@ export class LicensesComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
-        console.log(responseError)
         this.toastrService.error(responseError, "Error", { positionClass: 'toast-bottom-right' })
       }, complete: () => {
 
@@ -162,8 +161,8 @@ export class LicensesComponent implements OnInit {
         this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
       }, complete: () => {
         this.getLicenses()
-        this.modalRef.hide()      
-        
+        this.modalRef.hide()
+
       }
     })
   }

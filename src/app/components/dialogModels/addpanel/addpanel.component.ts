@@ -38,7 +38,6 @@ export class AddpanelComponent implements OnInit {
       next: (response) => {
         this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
       }, error: (e) => {
-        console.log(e)
         this.toastrService.error(e.error.message, "Error", { positionClass: 'toast-bottom-right' })
       },complete:()=>{
         this.modalRef.hide()

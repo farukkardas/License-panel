@@ -21,8 +21,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.checkIsLogged()
     this.createLoginForm()
-    this.testRequest()
-  
+      
   }
   checkIsLogged() {
     if (this.authService.isAuth()) {
@@ -30,13 +29,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  testRequest() {
-    console.log(this.authService.testTime().subscribe((response)=>{
-     console.log(response.date)
-     console.log(response.dateTime)
-
-         }))
-  }
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
@@ -87,8 +79,12 @@ export class LoginComponent implements OnInit {
         this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
         return true;
       }, error: (responseError) => {
-        this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
-
+        if(responseError.error.message != null){
+          this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }, complete: () => {
         setTimeout(() => { this.router.navigate([""]), window.location.reload() }, 2000)
 
