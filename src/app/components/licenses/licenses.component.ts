@@ -53,7 +53,12 @@ export class LicensesComponent implements OnInit {
       next: (response) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
-        this.toastrService.error(error, "Error", { positionClass: 'toast-bottom-right' })
+        if(error.error.message != null){
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }
     })
   }
@@ -71,7 +76,12 @@ export class LicensesComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
-        this.toastrService.error(responseError, "Error", { positionClass: 'toast-bottom-right' })
+        if(responseError.error.message != null){
+          this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }, complete: () => {
 
       }
@@ -119,8 +129,12 @@ export class LicensesComponent implements OnInit {
       next: (response) => {
         this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
       }, error: (error) => {
-        this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
-      }, complete: () => {
+        if(error.error.message != null){
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }      }, complete: () => {
         this.getLicenses()
         this.modalRef.hide()
       }

@@ -32,7 +32,12 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         this.userInfo = response.data
       }, error: (e) => {
-        this.toastrService.error("Error when retrieving user info!", "Error", { positionClass: 'toast-bottom-right' })
+        if(e.error.message != null){
+          this.toastrService.error(e.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }
     })
   }
@@ -45,7 +50,12 @@ export class DashboardComponent implements OnInit {
         this.dataSource.sort = this.sort
         this.dataSource.paginator = this.paginator
       }, error: (responseError) => {
-        this.toastrService.error("Error when retrieving user logs!", "Error", { positionClass: 'toast-bottom-right' })
+        if(responseError.error.message != null){
+          this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }
     })
   }

@@ -25,9 +25,8 @@
     margin-bottom: 20px;
   }
 
-  
-
 }
+
 
 
 #mainBody {
@@ -38,10 +37,6 @@
 
 .mat-elevation-z8 {
   background-color: #f0f0f5;
-}
-
-.col {
-  margin-top: 20px;
 }
 
 .container {
@@ -79,23 +74,7 @@
 }
 
 img {
-  margin-left: 10px;
-  width: 50px;
-  height: 50px;
-}
-
-
-
-.sub-card {
-  width: 150px;
-  height: 40px;
-}
-
-.sub-card>p {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 18px;
-  color: white;
-  line-height: 220%;
+margin-left: 5px;
 }
 
 table {
@@ -106,4 +85,21 @@ table {
 
 .mat-paginator {
   margin-bottom: 30px;
+}
+
+.panel-body{
+  height: 200px;
+  border: 5px;
+  border-radius: 10px;
+}
+
+.title{
+  padding-left: 10px;
+}
+
+.properties{
+  color: white;
+  font-family: monserrat;
+  padding-left: 10px;
+  font-size: 18px;
 }

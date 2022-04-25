@@ -28,10 +28,6 @@
   display:none;
 }
 
-.fs-4{
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
 #dropdownBasic1 {
   background-color: none;
   color: white;
@@ -64,14 +60,6 @@ button:active{
   margin-left: 300px;
 }
 
-a:hover{
-  background-color: grey;
-  color: black;
-}
-
-a:active{
-  background-color: grey;
-}
 
 button{
   height: 40;

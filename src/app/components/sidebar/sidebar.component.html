@@ -1,77 +1,31 @@
-<div
-  id="sidebar"
-  *ngIf="isAuth" style="height: 100%;"
-  class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
->
-  <a
-    href="/"
-    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-  >
-    <img
-      class="bi me-2"
-      width="32"
-      height="32"
-      src="assets/logo.png"
-      alt="Auth Logo"
-    />
-
-    <span class="fs-4"> License Panel</span>
+<div id="sidebar" *ngIf="isAuth" style="height: 100%;" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <img class="bi me-2" width="32" height="32" src="assets/logo.png" alt="Auth Logo" />
+    <span class="fs-4" style="font-family: monserrat;"> License Panel</span>
   </a>
   <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li>
       <button [routerLink]="['']" class="nav-link text-white">
-        <img
-          class="bi me-2"
-          width="26"
-          height="26"
-          src="assets/dashboard.png"
-          alt="Dashboard Logo"
-        />
+        <img class="bi me-2" width="26" height="26" src="assets/dashboard.png" alt="Dashboard Logo" />
         Dashboard
       </button>
     </li>
     <li>
       <button [routerLink]="['licenses']" class="nav-link text-white">
-        <img
-          class="bi me-2"
-          width="26"
-          height="26"
-          src="assets/key.png"
-          alt="Auth Logo"
-        />
+        <img class="bi me-2" width="26" height="26" src="assets/key.png" alt="Auth Logo" />
         Licenses
       </button>
     </li>
     <li>
-      <button
-        [routerLink]="['/panels']"
-        style="height: 40px;"
-        class="nav-link text-white"
-      >
-        <img
-          class="bi me-2"
-          width="26"
-          height="26"
-          src="assets/panel.png"
-          alt="Auth Logo"
-        />
+      <button [routerLink]="['/panels']" style="height: 40px;" class="nav-link text-white">
+        <img class="bi me-2" width="26" height="26" src="assets/panel.png" alt="Auth Logo" />
         Panels
       </button>
     </li>
     <li>
-      <button
-        [routerLink]="['/logs']"
-        style="height: 40px;"
-        class="nav-link text-white"
-      >
-        <img
-          class="bi me-2"
-          width="26"
-          height="26"
-          src="assets/log.png"
-          alt="Auth Logo"
-        />
+      <button [routerLink]="['/logs']" style="height: 40px;" class="nav-link text-white">
+        <img class="bi me-2" width="26" height="26" src="assets/log.png" alt="Auth Logo" />
         Logs
       </button>
     </li>
@@ -79,30 +33,13 @@
   <hr />
   <div class="dropdown">
     <div ngbDropdown class="d-inline-block">
-      <button
-        style="width: 230px;"
-        class="btn btn-outline-primary"
-        id="dropdownBasic1"
-        ngbDropdownToggle
-      >
-        <img
-          class="bi me-2"
-          width="26"
-          height="24"
-          src="assets/gear.png"
-          alt="Auth Logo"
-        />
+      <button style="width: 230px;" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+        <img class="bi me-2" width="26" height="24" src="assets/gear.png" alt="Auth Logo" />
         Settings
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button (click)="logout()" ngbDropdownItem>
-          <img
-            class="bi me-2"
-            width="24"
-            height="24"
-            src="assets/logout.png"
-            alt="Auth Logo"
-          />
+          <img class="bi me-2" width="24" height="24" src="assets/logout.png" alt="Auth Logo" />
           Logout
         </button>
       </div>

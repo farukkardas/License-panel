@@ -16,12 +16,11 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private cookieService: CookieService, private authService: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.url.includes("http://localhost:7225/api/license")) {
+    if (request.url.includes("http://localhost:7225/api/license") || request.url.includes("http://localhost:7225/api/user") ) {
       this.authService.checkSkOutdated().subscribe({
         next: (response) => {
         }, error: (error) => {
           this.authService.logout()
-          
         }, complete: () => {
 
         }

@@ -2,6 +2,23 @@
 @import '~ngx-toastr/toastr';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+@font-face {
+  font-family: monserrat;
+  src: url(src/assets/font/monserrat.ttf) format("opentype");
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+td {
+  font-size: 14px;
+  font-family: monserrat;
+  font-weight: 500;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

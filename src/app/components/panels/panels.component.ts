@@ -81,7 +81,12 @@ export class PanelsComponent implements OnInit {
       next: (response) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
-        this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        if(error.error.message != null){
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }
     })
   }
@@ -94,8 +99,12 @@ export class PanelsComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
-        this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
-
+        if(responseError.error.message != null){
+          this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else{
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
       }
     })
   }

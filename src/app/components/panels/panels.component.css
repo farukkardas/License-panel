@@ -20,9 +20,6 @@
     left: -9999px;
   }
 
-  .topbar {
-    display: inline-flex;
-  }
 
   .exportBar{
     margin-top: 30px;
@@ -53,14 +50,7 @@ th.mat-sort-header-sorted {
   padding-top: 7px;
 }
 
-.topbar {
-  padding-bottom: 2%;
-  margin-left: 1%;
-  padding-top: 7px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  display: flex;
-}
+
 
 .topbar>p {
   margin: auto 0 auto auto;
@@ -93,4 +83,24 @@ th.mat-sort-header-sorted {
   font-size: 16px;
   width: 240px;
   height: 40px;
+}
+
+.balance-text {
+  float: right;
+  font-weight: 400;
+  font-size: 16px;
+  padding-right: 40px;
+}
+
+.col-sm>.mat-raised-button {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+
+
+.form-control {
+  width: 250px;
+  float: right;
+  margin-right: 40px;
 }
