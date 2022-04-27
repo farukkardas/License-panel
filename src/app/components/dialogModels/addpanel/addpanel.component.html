@@ -29,12 +29,19 @@
         type="number"
         class="form-control"
         formControlName="balance"
-        id="floatingPassword"
+        id="floatingBalance"
         placeholder="Balance.."
       />
-      <label for="floatingPassword">Balance</label>
+      <label for="floatingBalance">Balance</label>
     </div>
 
+
+    <mat-form-field style="width: 250px;" appearance="fill">
+      <mat-label>Choose an application </mat-label>
+      <mat-select (selectionChange)="onChange($event)">
+        <mat-option *ngFor="let application of applications"  (selectionChange)="onChange($event)" [value]="application">{{application.applicationName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
    
     <div class="d-grid">
       <button (click)="openModal(template)"

@@ -14,6 +14,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { ApplicationService } from 'src/app/services/application.service';
+import { Application } from 'src/app/models/Application';
+import { CreateapplicationComponent } from '../dialogModels/createapplication/createapplication.component';
 
 @Component({
   selector: 'app-licenses',
@@ -31,6 +34,8 @@ export class LicensesComponent implements OnInit {
   displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset', 'delete'];
   dataSource: MatTableDataSource<KeyLicense>
   licenses: KeyLicense[] = []
+  applications: Application[] = []
+  static applicationId: number;
   modalRef: BsModalRef;
   selectedId: number;
   userBalance: number;
@@ -39,24 +44,42 @@ export class LicensesComponent implements OnInit {
   now = Date.now();
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
-  constructor(private router: Router, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
+  constructor(private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getAppById()
     this.getLicenses()
     this.getUserDetails()
 
   }
 
+  onChange($event) {
+    LicensesComponent.applicationId = $event.value.id;
+    this.getLicensesByAppId()
+  }
+
+  getLicensesByAppId() {
+    this.licenseService.getLicensesByAppId(LicensesComponent.applicationId).subscribe({
+      next: (response) => {
+        this.licenses = response.data
+        this.dataSource = new MatTableDataSource(this.licenses)
+        this.dataSource.sort = this.sort
+        this.dataSource.paginator = this.paginator
+      }, error: (error) => {
+        this.toastrService.error("Error when getting licenses!", "Error", { positionClass: "toast-bottom-right" })
+      }
+    })
+  }
 
   getUserDetails() {
     this.userService.getUserDetails().subscribe({
       next: (response) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
-        if(error.error.message != null){
+        if (error.error.message != null) {
           this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }
@@ -76,10 +99,10 @@ export class LicensesComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
-        if(responseError.error.message != null){
+        if (responseError.error.message != null) {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }, complete: () => {
@@ -99,7 +122,17 @@ export class LicensesComponent implements OnInit {
     dialogConfig.width = "25%";
     dialogConfig.height = "20%";
     this.matDialog.open(KeygenerateComponent, dialogConfig).afterClosed().subscribe(result => {
+      this.getLicensesByAppId()
+    });
+  }
+
+  openCreateGeneratePanel() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = "25%";
+    dialogConfig.height = "35%";
+    this.matDialog.open(CreateapplicationComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getLicenses()
+      this.getAppById()
     });
   }
 
@@ -129,13 +162,14 @@ export class LicensesComponent implements OnInit {
       next: (response) => {
         this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
       }, error: (error) => {
-        if(error.error.message != null){
+        if (error.error.message != null) {
           this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
-        }      }, complete: () => {
-        this.getLicenses()
+        }
+      }, complete: () => {
+        this.getLicensesByAppId()
         this.modalRef.hide()
       }
     })
@@ -155,30 +189,63 @@ export class LicensesComponent implements OnInit {
   }
 
   deleteAllKeys() {
-    this.licenseService.deleteAllKeys().subscribe({
-      next: (response) => {
-        this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
-      }, error: (error) => {
-        this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
-      }, complete: () => {
-        this.getLicenses()
-        this.modalRef.hide()
-      }
-    })
+    if (LicensesComponent.applicationId == undefined || LicensesComponent.applicationId == null) {
+      this.licenseService.deleteAllKeys().subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }, error: (error) => {
+          this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+        }, complete: () => {
+          this.getLicenses()
+          this.modalRef.hide()
+        }
+      })
+    }
+    else{
+      this.licenseService.DeleteAllLicensesByAppId(LicensesComponent.applicationId).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        },
+        error: (error) => {
+          this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+        },
+        complete: () => {
+          this.getLicensesByAppId()
+          this.modalRef.hide()
+        }
+      })
+    }
   }
 
   hwidResetAllKeys() {
-    this.licenseService.resetAllHwids().subscribe({
-      next: (response) => {
-        this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
-      }, error: (error) => {
-        this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
-      }, complete: () => {
-        this.getLicenses()
-        this.modalRef.hide()
-
-      }
-    })
+ 
+    if(LicensesComponent.applicationId == undefined || LicensesComponent.applicationId == null){
+      this.licenseService.resetAllHwids().subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }, error: (error) => {
+          this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+        }, complete: () => {
+          this.getLicenses()
+          this.modalRef.hide()
+        }
+      })
+    }
+    else{
+      this.licenseService.resetAllLicensesByAppId(LicensesComponent.applicationId).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }
+        , error: (error) => {
+          this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+        }
+        , complete: () => {
+          this.getLicensesByAppId()
+          this.modalRef.hide()
+        }
+      })
+    }
+   
   }
 
   checkLicenseStatus(status: boolean) {
@@ -252,6 +319,19 @@ export class LicensesComponent implements OnInit {
     WindowPrt.focus();
     WindowPrt.print();
     WindowPrt.close();
+  }
+
+  // create method application service getAppById
+  getAppById() {
+    this.applicationService.getAppById().subscribe({
+      next: (response) => {
+        this.applications = response.data;
+      }, error: (error) => {
+        this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+      }, complete: () => {
+        this.getLicenses()
+      }
+    })
   }
 }
 

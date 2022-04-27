@@ -15,7 +15,7 @@ export class KeygenerateComponent implements OnInit {
   selectOption: number;
   modalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService, private licenseService: LicenseService, private toastrService: ToastrService, private licenseComponent: LicensesComponent) { }
+  constructor(private keyLicenseComponent: LicensesComponent, private modalService: BsModalService, private licenseService: LicenseService, private toastrService: ToastrService, private licenseComponent: LicensesComponent) { }
 
   ngOnInit(): void {
   }
@@ -25,12 +25,16 @@ export class KeygenerateComponent implements OnInit {
   }
 
   generateKey() {
-    this.licenseService.generateLicense(this.selectOption).subscribe({
+    console.log(LicensesComponent.applicationId)
+    if (LicensesComponent.applicationId == null || LicensesComponent.applicationId < 1) {
+      this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' });
+    }
+    this.licenseService.generateLicense(this.selectOption, LicensesComponent.applicationId).subscribe({
       next: (response) => {
         this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
       }, error: (error) => {
         this.modalRef.hide()
-        this.toastrService.error(error.error.message, "Error", { positionClass: "toast-bottom-right" })
+        this.toastrService.error("Error when creating key!", "Error", { positionClass: "toast-bottom-right" })
       }, complete: () => {
         this.modalRef.hide()
         this.licenseComponent.closeModal()

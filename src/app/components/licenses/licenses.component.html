@@ -5,13 +5,27 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div  class="col-sm">
+        <div class="col-sm">
           <p class="balance-text">
             Balance: {{userBalance| currency}}
           </p>
         </div>
       </div>
-      <div class="row">
+      <div class="d-flex flex-column">
+        <p class="title-app">Choose application</p>
+        <mat-form-field style="width: 250px;" appearance="fill">
+          <mat-label>Choose an application </mat-label>
+          <mat-select (selectionChange)="onChange($event)">
+            <mat-option *ngFor="let application of applications"  (selectionChange)="onChange($event)" [value]="application">{{application.applicationName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button (click)="openCreateGeneratePanel()">
+            Create application
+          </button>
+        </div>
+      </div>
+      <div class="mt-4 row">
         <div class="col-sm">
           <button mat-raised-button (click)="openGeneratePanel()" style="background-color: green;" color="primary">
             Generate New Key
@@ -37,9 +51,7 @@
           <button mat-raised-button (click)="printTable()">Print</button>
         </div>
         <div class="col-sm-6">
-          <input class="form-control"
-             type="text"
-            placeholder="Search.." (keyup)="applyFilter($event.target.value)">
+          <input class="form-control" type="text" placeholder="Search.." (keyup)="applyFilter($event.target.value)">
         </div>
       </div>
     </div>

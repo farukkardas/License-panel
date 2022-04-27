@@ -65,6 +65,12 @@ th.mat-sort-header-sorted {
   padding-top: 7px;
 }
 
+.title-app {
+  padding-left: 5px;
+  padding-top: 7px;
+  font-weight: 500;
+}
+
 .balance-text {
   float: right;
   font-weight: 400;

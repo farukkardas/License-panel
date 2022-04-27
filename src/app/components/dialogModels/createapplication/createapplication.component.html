@@ -1,0 +1,48 @@
+<div class="parent">
+    <p style="font-weight: 600;color: red;text-align: center;padding-bottom: 10px;">*Email format is need to be clear.</p>
+    <p style="font-weight: 600;color: red;text-align: center;padding-bottom: 10px;">*Password length is minimum 9.</p>
+    <form [formGroup]="panelForm">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="applicationName"
+          id="floatingInput"
+          placeholder="New application name.."
+        />
+        <label for="floatingInput">New Application Name</label>
+      </div>
+  
+     
+      <div class="d-grid">
+        <button (click)="openModal(template)"
+          class="btn btn-primary btn-login text-uppercase fw-bold"
+          type="submit"
+        >
+          Create Panel
+        </button>
+      </div>
+    </form>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to add?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="confirm()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  

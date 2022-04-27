@@ -18,9 +18,19 @@ export class LicenseService {
     return this.httpClient.get<ListResponseModel<KeyLicense>>(this.apiUrl + "getlicenses")
   }
 
-  generateLicense(keyExpiration: number) {
+  getLicensesByAppId(appId:number): Observable<ListResponseModel<KeyLicense>> {
+    return this.httpClient.get<ListResponseModel<KeyLicense>>(this.apiUrl + "GetLicenseByAppId?applicationId=" + appId);
+  }
+
+  DeleteAllLicensesByAppId(applicationId: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration,params );
+
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteAllLicensesByAppId?applicationId=" + applicationId,params);
+  }
+
+  generateLicense(keyExpiration: number, applicationId: number) {
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration + "&applicationId=" + applicationId,params );
   }
 
   deleteLicense(deleteKeyId: number) {
@@ -40,6 +50,11 @@ export class LicenseService {
 
   resetAllHwids(){
     return this.httpClient.post<ResponseModel>(this.apiUrl + "resetalllicenses",null);
+  }
+
+  resetAllLicensesByAppId(applicationId: number) {
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "ResetAllLicensesByAppId?applicationId=" + applicationId,params);
   }
   
 

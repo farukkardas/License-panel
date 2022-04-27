@@ -23,10 +23,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PanelsComponent } from './components/panels/panels.component';
 import { AddpanelComponent } from './components/dialogModels/addpanel/addpanel.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { LogsComponent } from './components/logs/logs.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CreateapplicationComponent } from './components/dialogModels/createapplication/createapplication.component';
 
 
 @NgModule({
@@ -38,9 +39,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     KeygenerateComponent,
     PanelsComponent,
     AddpanelComponent,
-  
     LogsComponent,
-       DashboardComponent
+    DashboardComponent,
+    CreateapplicationComponent
   ],
   imports: [
     BrowserModule,

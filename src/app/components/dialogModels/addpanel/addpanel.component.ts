@@ -2,7 +2,9 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { Application } from 'src/app/models/Application';
 import { PanelRegisterDto } from 'src/app/models/PanelRegisterDto';
+import { ApplicationService } from 'src/app/services/application.service';
 import { PanelService } from 'src/app/services/panel.service';
 import { PanelsComponent } from '../../panels/panels.component';
 
@@ -13,18 +15,40 @@ import { PanelsComponent } from '../../panels/panels.component';
 })
 export class AddpanelComponent implements OnInit {
 
-  constructor(private panelService: PanelService, private formBuilder: FormBuilder, private toastrService: ToastrService,private modalService:BsModalService,private panelComponent:PanelsComponent) { }
+  constructor(private applicationService: ApplicationService, private panelService: PanelService, private formBuilder: FormBuilder, private toastrService: ToastrService, private modalService: BsModalService, private panelComponent: PanelsComponent) { }
   panelForm: FormGroup;
-  modalRef:BsModalRef;
+  modalRef: BsModalRef;
+  applications: Application[] = []
   ngOnInit(): void {
     this.createLoginForm()
+    this.getAppById()
   }
 
   createLoginForm() {
     this.panelForm = this.formBuilder.group({
       panelMail: ["", Validators.required],
       panelPassword: ["", Validators.required],
-      balance: ["", Validators.required]
+      balance: ["", Validators.required],
+      applicationId: ["", Validators.required]
+    })
+  }
+
+  onChange($event) {
+    let appId: number = $event.value.id;
+    this.panelForm.patchValue({
+      applicationId: appId
+    })
+  }
+
+  getAppById() {
+    this.applicationService.getAppById().subscribe({
+      next: (response) => {
+        this.applications = response.data;
+      }, error: (error) => {
+        this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+      }, complete: () => {
+        //this.getLicenses()
+      }
     })
   }
 
@@ -34,16 +58,32 @@ export class AddpanelComponent implements OnInit {
 
   generatePanel() {
     let panelRegisterModel: PanelRegisterDto = { ...this.panelForm.value }
-    this.panelService.addNewPanel(panelRegisterModel).subscribe({
-      next: (response) => {
-        this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
-      }, error: (e) => {
-        this.toastrService.error(e.error.message, "Error", { positionClass: 'toast-bottom-right' })
-      },complete:()=>{
-        this.modalRef.hide()
-        this.panelComponent.closeModal()
-      }
-    })
+
+    if (panelRegisterModel.applicationId == null || panelRegisterModel.applicationId == undefined || panelRegisterModel.applicationId == 0) {
+      this.toastrService.error("Please select application", "Error", { positionClass: "toast-bottom-right" })
+      return;
+    }
+    else {
+      this.panelService.addNewPanel(panelRegisterModel).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
+        }, error: (responseError) => {
+          if (responseError.status == 400 && responseError.error.Errors != null) {
+            for (let index = 0; index < responseError.error.Errors.length; index++) {
+              this.toastrService.error(responseError.error.Errors[index].ErrorMessage, "Error", { positionClass: "toast-bottom-right" })
+            }
+          }
+          else {
+            this.toastrService.error("Internal server error when adding panel!", "Error", { positionClass: "toast-bottom-right" })
+
+          }
+        }, complete: () => {
+          this.modalRef.hide()
+          this.panelComponent.closeModal()
+        }
+      })
+    }
+
   }
 
   confirm(): void {

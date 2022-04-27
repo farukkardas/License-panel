@@ -5,4 +5,5 @@ export class KeyLicense {
     ownerId: number;
     expirationDate: Date;
     isOwned: boolean;
+    applicationId : number;
 }
