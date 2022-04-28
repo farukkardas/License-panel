@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application } from '../models/Application';
@@ -20,5 +20,15 @@ export class ApplicationService {
   //add application
   addApplication(application:Application){
     return this.httpClient.post<ResponseModel>(this.apiUrl + "add",application);
+  }
+
+  deleteApplication(applicationId:number){
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "delete?applicationId=" + applicationId,params);
+  }
+
+  disableApplication(applicationId:number){
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "disableApplication?applicationId=" + applicationId,params);
   }
 }

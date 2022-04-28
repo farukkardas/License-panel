@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: "licenses", component: LicensesComponent, canActivate: [LoginGuard] },
   { path: "login", component: LoginComponent },
   { path: "panels", component: PanelsComponent, canActivate: [LoginGuard] },
-  { path: "logs", component: LogsComponent, canActivate: [LoginGuard] }
+  { path: "logs", component: LogsComponent, canActivate: [LoginGuard] },
 ];
 
 @NgModule({

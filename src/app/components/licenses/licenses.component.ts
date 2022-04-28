@@ -119,8 +119,8 @@ export class LicensesComponent implements OnInit {
 
   openGeneratePanel() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = "25%";
-    dialogConfig.height = "20%";
+    dialogConfig.width = '500px';
+    dialogConfig.height = '180px';
     this.matDialog.open(KeygenerateComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getLicensesByAppId()
     });
@@ -128,8 +128,8 @@ export class LicensesComponent implements OnInit {
 
   openCreateGeneratePanel() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = "25%";
-    dialogConfig.height = "35%";
+    dialogConfig.width = '600px';
+    dialogConfig.height = '300px';
     this.matDialog.open(CreateapplicationComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getLicenses()
       this.getAppById()
@@ -175,6 +175,28 @@ export class LicensesComponent implements OnInit {
     })
   }
 
+  disableApplication(){
+
+    if(LicensesComponent.applicationId == null){
+      this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' })
+      return;
+    }
+    this.applicationService.disableApplication(LicensesComponent.applicationId).subscribe({
+      next: (response) => {
+        this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+      }, error: (error) => {
+        if (error.error.message != null) {
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else {
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
+      }, complete: () => {
+        this.getAppById()
+      }
+    })
+  }
+
   resetHwid(keyId: number) {
     this.licenseService.resetHwid(keyId).subscribe({
       next: (response) => {
@@ -185,6 +207,26 @@ export class LicensesComponent implements OnInit {
         this.getLicenses()
       }
     })
+
+  }
+
+  deleteApplication(){
+    if(LicensesComponent.applicationId != null){
+      this.applicationService.deleteApplication(LicensesComponent.applicationId).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }, error: (error) => {
+          this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
+          console.log(error)
+        }, complete: () => {
+          this.getLicenses()
+          this.getAppById()
+          this.modalRef.hide()
+        }
+      })
+      return;
+    }
+    this.toastrService.error("Please select application!", "Error", { positionClass: "toast-bottom-right" })
 
   }
 

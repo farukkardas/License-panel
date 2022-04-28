@@ -39,7 +39,7 @@
                 </label>
               </div>
               <div class="d-grid">
-                <button (click)="login()" (keyup.enter)="login()"
+                <button (click)="login()" [disabled]="!buttonEnabled" (keyup.enter)="login()"
                   class="btn btn-primary btn-login text-uppercase fw-bold"
                   type="submit"
                 >

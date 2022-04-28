@@ -28,6 +28,7 @@ export class KeygenerateComponent implements OnInit {
     console.log(LicensesComponent.applicationId)
     if (LicensesComponent.applicationId == null || LicensesComponent.applicationId < 1) {
       this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' });
+      return;
     }
     this.licenseService.generateLicense(this.selectOption, LicensesComponent.applicationId).subscribe({
       next: (response) => {

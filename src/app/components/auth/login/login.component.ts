@@ -16,6 +16,8 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  buttonEnabled: boolean = true;
+
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private cookieService: CookieService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
@@ -37,7 +39,13 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  enableButton() {
+    this.buttonEnabled = true;
+  }
   login() {
+    this.buttonEnabled = false;
+    setTimeout(() => this.enableButton(), 4000)
+
     let loginModel: LoginModel = { ...this.loginForm.value };
 
 

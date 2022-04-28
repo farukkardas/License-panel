@@ -65,8 +65,8 @@ export class PanelsComponent implements OnInit {
   openGeneratePanel() {
 
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = "25%";
-    dialogConfig.height = "40%";
+    dialogConfig.width = '600px';
+    dialogConfig.height =  '500px';
     this.matDialog.open(AddpanelComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getUserPanels()
     });
