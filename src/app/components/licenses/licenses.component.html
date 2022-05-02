@@ -11,13 +11,13 @@
           </p>
         </div>
       </div>
-      <div class="d-flex flex-column">
+      <div *ngIf="isAuth" class="d-flex flex-column">
         <p class="title-app">Choose application</p>
         <mat-form-field style="width: 250px;" appearance="fill">
           <mat-label>Choose an application </mat-label>
           <mat-select (selectionChange)="onChange($event)">
             <mat-option *ngFor="let application of applications" (selectionChange)="onChange($event)"
-              [value]="application">{{application.applicationName}}</mat-option>
+              [value]="application">{{application.applicationName | uppercase}}</mat-option>
           </mat-select>
         </mat-form-field>
         <div>

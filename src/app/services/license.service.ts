@@ -33,6 +33,11 @@ export class LicenseService {
     return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration + "&applicationId=" + applicationId,params );
   }
 
+  generateLicenseLocalSeller(keyExpiration: number) {
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration,params);
+  }
+
   deleteLicense(deleteKeyId: number) {
     const params = new HttpParams()
     return this.httpClient.post<ResponseModel>(this.apiUrl + "deletelicense?keyId=" + deleteKeyId,params );

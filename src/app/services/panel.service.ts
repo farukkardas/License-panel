@@ -12,19 +12,24 @@ import { ResponseModel } from '../models/ResponseModel';
 export class PanelService {
   apiUrl = "http://localhost:7225/api/panel/";
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getUserPanels() :Observable<ListResponseModel<Panel>> {
+  getUserPanels(): Observable<ListResponseModel<Panel>> {
     return this.httpClient.get<ListResponseModel<Panel>>(this.apiUrl + "getuserpanels");
   }
 
-  addNewPanel(panelRegisterDto:PanelRegisterDto) : Observable<ResponseModel> {
-   return this.httpClient.post<ResponseModel>(this.apiUrl+ "createnewpanel",panelRegisterDto);
+  addNewPanel(panelRegisterDto: PanelRegisterDto): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "createnewpanel", panelRegisterDto);
   }
 
-  disablePanel(panelId:number):Observable<ResponseModel>{
+  disablePanel(panelId: number): Observable<ResponseModel> {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl+ "disablepanel?panelid=" + panelId,{params:params});
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "disablepanel?panelid=" + panelId, { params: params });
 
+  }
+
+  getPanelsByAppId(appId: number): Observable<ListResponseModel<Panel>> {
+    const params = new HttpParams()
+    return this.httpClient.get<ListResponseModel<Panel>>(this.apiUrl + "GetPanelsByUserId?applicationId=" + appId, { params: params });
   }
 }

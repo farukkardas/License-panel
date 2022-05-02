@@ -6,30 +6,42 @@
     <div class="container-fluid">
       <div class="row gx-5">
         <div class="row">
-          <div  class="col-sm">
+          <div class="col-sm">
             <p class="balance-text">
               Balance: {{userBalance| currency}}
             </p>
           </div>
         </div>
-        <div class="col-sm">
-          <button mat-raised-button (click)="openGeneratePanel()" [disabled]="!isAuth" style="background-color: green;"
+        <div *ngIf="isAuth" class="col-sm">
+          <p class="title-app">Choose application</p>
+          <mat-form-field style="width: 250px;" appearance="fill">
+            <mat-label>Choose an application </mat-label>
+            <mat-select  (selectionChange)="onChange($event)">
+              <mat-option *ngFor="let application of applications" (selectionChange)="onChange($event)"
+                [value]="application">{{application.applicationName | uppercase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="d-flex" *ngIf="!isAuth">
+          <p class="title-app" style="color: red; font-weight: 500;">You dont have permission to create panel!</p>
+        </div>
+        <div class="d-flex">
+          <button mat-raised-button [disabled]="!isAuth" (click)="openGeneratePanel()" style="background-color: green;"
             color="primary">Generate New Panel</button>
         </div>
       </div>
       <div class="mt-4 row">
         <div class="col-sm">
-          <button mat-raised-button
+          <button mat-raised-button [disabled]="!isAuth" 
             (click)="exporter.exportTable('csv',{fileName:'Licenses ' + myFormattedDate})">CSV</button>
-          <button mat-raised-button
+          <button mat-raised-button [disabled]="!isAuth"
             (click)="exporter.exportTable('xls',{fileName:'Licenses '+ myFormattedDate})">Excel</button>
-          <button mat-raised-button [cdkCopyToClipboard]="copyLicenses()">Copy JSON</button>
-          <button mat-raised-button (click)="exportPdf()">PDF</button>
-          <button mat-raised-button (click)="printTable()">Print</button>
+          <button mat-raised-button [disabled]="!isAuth" [cdkCopyToClipboard]="copyLicenses()">Copy JSON</button>
+          <button mat-raised-button [disabled]="!isAuth" (click)="exportPdf()">PDF</button>
+          <button mat-raised-button [disabled]="!isAuth" (click)="printTable()">Print</button>
         </div>
         <div class="col-sm-6">
-          <input class="form-control" type="text" placeholder="Search.."
-            (keyup)="applyFilter($event)">
+          <input class="form-control" type="text" placeholder="Search.." (keyup)="applyFilter($event)">
         </div>
       </div>
     </div>
@@ -38,8 +50,8 @@
     <table matTableExporter class="table-responsive" #exporter="matTableExporter" [dataSource]="dataSource" mat-table
       matSort>
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Panel Mail. </th>
+        <td mat-cell *matCellDef="let element"> {{element.panelMail}} </td>
       </ng-container>
       <ng-container matColumnDef="panelOwnerId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Owner ID </th>

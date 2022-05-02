@@ -1,8 +1,10 @@
-export class Panel{
+export class Panel {
     id:number;
-    panelOwnerId:number;
-    panelSellerId:number;
-    isActive:boolean;
-    balance:number;
-    createdLicense:number;
+    panelOwnerId: number;
+    panelSellerId: number;
+    isActive: number;
+    balance: number;
+    createdLicense: number;
+    applicationId: number;
+    panelMail: string;
 }

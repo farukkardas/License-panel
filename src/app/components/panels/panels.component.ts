@@ -13,6 +13,10 @@ import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Application } from 'src/app/models/Application';
+import { ApplicationService } from 'src/app/services/application.service';
+import { LicensesComponent } from '../licenses/licenses.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-panels',
@@ -25,37 +29,72 @@ import { MatSort } from '@angular/material/sort';
 export class PanelsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  static appId: number;
   panels: Panel[] = []
   dataSource: MatTableDataSource<Panel>;
   displayedColumns: string[] = ['id', 'panelOwnerId', 'panelSellerId', 'isActive', 'balance', 'createdLicense', 'disable'];
   isAuth: boolean = false;
   userBalance: number;
   modalRef: BsModalRef;
+  applications: Application[] = []
   selectedId: number;
   pipe = new DatePipe('en-US');
   now = Date.now();
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
-  constructor(private panelService: PanelService, private userService: UserService, private toastrService: ToastrService, private matDialog: MatDialog, private modalService: BsModalService) { }
+  constructor(private authService:AuthService,private applicationService: ApplicationService, private panelService: PanelService, private userService: UserService, private toastrService: ToastrService, private matDialog: MatDialog, private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.getUserPanels()
     this.getUserDetails()
+    this.getAllApplications()
     this.disableAddButton()
   }
   disableAddButton() {
-    var role = localStorage.getItem("xx")
-    var bytes = CryptoJS.AES.decrypt(role, 'superkey');
-    var originalText = bytes.toString(CryptoJS.enc.Utf8);
-
-    if (originalText.includes("localseller")) {
-      this.isAuth = false;
-    }
-    else {
-      this.isAuth = true;
-    }
-
+    this.isAuth = this.authService.checkIfHavePermission()
   }
+
+  getAllApplications() {
+    this.applicationService.getAppById().subscribe({
+      next: (response) => {
+        this.applications = response.data
+      }, error: (error) => {
+        if (error.error.message != null) {
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else {
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
+      }
+    })
+  }
+
+  onChange($event) {
+    PanelsComponent.appId = $event.value.id;
+    this.getPanelsByAppId()
+  }
+
+  getPanelsByAppId() {
+    if (PanelsComponent.appId != null || PanelsComponent.appId != undefined) {
+      this.panelService.getPanelsByAppId(PanelsComponent.appId).subscribe({
+        next: (response) => {
+          console.log(response.data)
+          this.panels = response.data;
+          this.dataSource = new MatTableDataSource(response.data)
+          this.dataSource.paginator = this.paginator
+          this.dataSource.sort = this.sort
+        }, error: (responseError) => {
+          if (responseError.error.message != null) {
+            this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+          }
+          else {
+            this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+          }
+        }
+      })
+    }
+  }
+
 
   openModal(template: TemplateRef<any>, deleteKeyId) {
     this.modalRef = this.modalService.show(template, { class: 'modal-dialog-centered' })
@@ -63,12 +102,13 @@ export class PanelsComponent implements OnInit {
   }
 
   openGeneratePanel() {
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '600px';
-    dialogConfig.height =  '500px';
+    dialogConfig.height = '500px';
     this.matDialog.open(AddpanelComponent, dialogConfig).afterClosed().subscribe(result => {
-      this.getUserPanels()
+
+      this.getPanelsByAppId()
+
     });
   }
 
@@ -81,10 +121,10 @@ export class PanelsComponent implements OnInit {
       next: (response) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
-        if(error.error.message != null){
+        if (error.error.message != null) {
           this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }
@@ -99,10 +139,10 @@ export class PanelsComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
-        if(responseError.error.message != null){
+        if (responseError.error.message != null) {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }
@@ -114,6 +154,7 @@ export class PanelsComponent implements OnInit {
       next: (response) => {
         this.toastrService.success(response.message, "Error", { positionClass: 'toast-bottom-right' })
       }, error: (error) => {
+        console.log(error)
         this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
       }, complete: () => {
         this.getUserPanels()
@@ -140,12 +181,13 @@ export class PanelsComponent implements OnInit {
     var prepare = [];
     this.panels.forEach(e => {
       var tempObj = [];
-      tempObj.push(e.id);
       tempObj.push(e.panelOwnerId);
       tempObj.push(e.panelSellerId);
       tempObj.push(e.isActive);
       tempObj.push(e.balance);
       tempObj.push(e.createdLicense);
+      tempObj.push(e.applicationId);
+      tempObj.push(e.panelMail);
 
       prepare.push(tempObj);
     });
@@ -171,7 +213,7 @@ export class PanelsComponent implements OnInit {
     WindowPrt.print();
     WindowPrt.close();
   }
- // filter MatTableDataSource by a key value
+  // filter MatTableDataSource by a key value
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

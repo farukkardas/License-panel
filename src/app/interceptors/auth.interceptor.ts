@@ -24,9 +24,12 @@ export class AuthInterceptor implements HttpInterceptor {
         }, error: (error) => {
           this.authService.logout()
         }, complete: () => {
-
         }
       })
+    }
+
+    if(this.authService.checkJwtExpired()){
+      this.authService.logout()
     }
 
 
@@ -42,13 +45,14 @@ export class AuthInterceptor implements HttpInterceptor {
           let errorMsg = '';
           if (error.error instanceof ErrorEvent) {
             errorMsg = `Error: ${error.error.message}`;
-          } else {
-            if (error.error.message == "Your security key is not valid please login again." ||error.error.message == "Security key outdated") {
+          } 
+          else {
+            if (error.error.message == "Your security key is not valid please login again." || error.error.message == "Security key outdated") {
               this.authService.logout()
             }
-            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+            errorMsg = error.error.message;
           }
-          return throwError(()=>errorMsg);
+          return throwError(error);
         })
       )
   }

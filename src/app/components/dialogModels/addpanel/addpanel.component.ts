@@ -73,9 +73,11 @@ export class AddpanelComponent implements OnInit {
               this.toastrService.error(responseError.error.Errors[index].ErrorMessage, "Error", { positionClass: "toast-bottom-right" })
             }
           }
-          else {
-            this.toastrService.error("Internal server error when adding panel!", "Error", { positionClass: "toast-bottom-right" })
-
+          else if(responseError.error.message) {
+            this.toastrService.error(responseError.error.message, "Error", { positionClass: "toast-bottom-right" })
+          }
+          else{
+            this.toastrService.error("Internal server error! Please contact with administrator.", "Error", { positionClass: "toast-bottom-right" })
           }
         }, complete: () => {
           this.modalRef.hide()

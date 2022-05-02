@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/Application';
 import { CreateapplicationComponent } from '../dialogModels/createapplication/createapplication.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-licenses',
@@ -42,15 +43,16 @@ export class LicensesComponent implements OnInit {
   matTableExporter: any;
   pipe = new DatePipe('en-US');
   now = Date.now();
+  isAuth: boolean = false;
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
-  constructor(private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
+  constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.getAppById()
     this.getLicenses()
     this.getUserDetails()
-
+    this.disableDivs()
   }
 
   onChange($event) {
@@ -122,7 +124,12 @@ export class LicensesComponent implements OnInit {
     dialogConfig.width = '500px';
     dialogConfig.height = '180px';
     this.matDialog.open(KeygenerateComponent, dialogConfig).afterClosed().subscribe(result => {
-      this.getLicensesByAppId()
+      if (LicensesComponent.applicationId != undefined)
+        this.getLicensesByAppId()
+      else {
+        this.getLicenses()
+      }
+      this.getUserDetails()
     });
   }
 
@@ -175,9 +182,9 @@ export class LicensesComponent implements OnInit {
     })
   }
 
-  disableApplication(){
+  disableApplication() {
 
-    if(LicensesComponent.applicationId == null){
+    if (LicensesComponent.applicationId == null) {
       this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' })
       return;
     }
@@ -210,14 +217,13 @@ export class LicensesComponent implements OnInit {
 
   }
 
-  deleteApplication(){
-    if(LicensesComponent.applicationId != null){
+  deleteApplication() {
+    if (LicensesComponent.applicationId != null) {
       this.applicationService.deleteApplication(LicensesComponent.applicationId).subscribe({
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
         }, error: (error) => {
           this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
-          console.log(error)
         }, complete: () => {
           this.getLicenses()
           this.getAppById()
@@ -228,6 +234,10 @@ export class LicensesComponent implements OnInit {
     }
     this.toastrService.error("Please select application!", "Error", { positionClass: "toast-bottom-right" })
 
+  }
+
+  disableDivs() {
+    this.isAuth = this.authService.checkIfHavePermission()
   }
 
   deleteAllKeys() {
@@ -243,7 +253,7 @@ export class LicensesComponent implements OnInit {
         }
       })
     }
-    else{
+    else {
       this.licenseService.DeleteAllLicensesByAppId(LicensesComponent.applicationId).subscribe({
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
@@ -260,8 +270,8 @@ export class LicensesComponent implements OnInit {
   }
 
   hwidResetAllKeys() {
- 
-    if(LicensesComponent.applicationId == undefined || LicensesComponent.applicationId == null){
+
+    if (LicensesComponent.applicationId == undefined || LicensesComponent.applicationId == null) {
       this.licenseService.resetAllHwids().subscribe({
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
@@ -273,7 +283,7 @@ export class LicensesComponent implements OnInit {
         }
       })
     }
-    else{
+    else {
       this.licenseService.resetAllLicensesByAppId(LicensesComponent.applicationId).subscribe({
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
@@ -287,7 +297,7 @@ export class LicensesComponent implements OnInit {
         }
       })
     }
-   
+
   }
 
   checkLicenseStatus(status: boolean) {
