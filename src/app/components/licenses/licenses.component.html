@@ -21,15 +21,21 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <button mat-raised-button (click)="openCreateGeneratePanel()">
+          <button color="primary" style="background-color: green;" mat-raised-button (click)="openCreateGeneratePanel()"> 
+            <fa-icon [icon]="faAdd"></fa-icon>
+
             Create application
           </button>
           <button mat-raised-button (click)="openJustModal(deleteapplication)" style="background-color: red;"
             color="primary">
+            <fa-icon [icon]="faDelete"></fa-icon>
+
             Delete this Application
           </button>
           <button mat-raised-button (click)="disableApplication()" style="background-color: grey;"
           color="primary">
+          <fa-icon [icon]="faDisable"></fa-icon>
+
           Disable this Application
         </button>
         </div>
@@ -37,16 +43,26 @@
       <div class="mt-4 row">
         <div class="col-sm">
           <P class="title-app">Licenses</P>
-          <button mat-raised-button (click)="openGeneratePanel()" style="background-color: green;" color="primary">
+          <button mat-raised-button (click)="openGeneratePanel(keyGenerateComponent)" style="background-color: green;" color="primary">
+            <fa-icon [icon]="faAdd"></fa-icon>
+
             Generate New Key
           </button>
           <button mat-raised-button (click)="openJustModal(hwidresettemplate)" style="background-color: orange;"
             color="primary">
+            <fa-icon [icon]="faReset"></fa-icon>
+
             Hwid Reset All Keys
           </button>
           <button mat-raised-button (click)="openJustModal(deletetemplate)" style="background-color: red;"
             color="primary">
+            <fa-icon [icon]="faDelete"></fa-icon>
             Delete All Keys
+          </button>
+       
+          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
+            <fa-icon [icon]="faCircle"></fa-icon>
+            Extend All Keys
           </button>
         </div>
       </div>
@@ -110,6 +126,16 @@
         <td mat-cell *matCellDef="let element">
           <button mat-raised-button (click)="resetHwid(element.id)" style="background-color: darkorange;" color="warn">
             HWID Reset
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container  matColumnDef="extend-key">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let element">
+          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(false,element.id)" style="background-color: rgb(41, 182, 182);" color="warn">
+            <fa-icon [icon]="faCircle"></fa-icon>
+            Extend Time
           </button>
         </td>
       </ng-container>

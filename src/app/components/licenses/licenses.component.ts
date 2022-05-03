@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ToastrService } from 'ngx-toastr';
+import { ComponentType, ToastrService } from 'ngx-toastr';
 import { KeyLicense } from 'src/app/models/KeyLicense';
 import { UserService } from 'src/app/services/user.service';
 import { LicenseService } from '../../services/license.service';
@@ -18,6 +18,8 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/Application';
 import { CreateapplicationComponent } from '../dialogModels/createapplication/createapplication.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { faCircleExclamation, faClock, faCoffee, faLock, faPlus, faPlusCircle, faRepeat, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { ExtendkeyComponent } from '../dialogModels/extendkey/extendkey.component';
 
 @Component({
   selector: 'app-licenses',
@@ -32,10 +34,11 @@ export class LicensesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isEmpty: boolean = false;
-  displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset', 'delete'];
+  displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset','extend-key', 'delete'];
   dataSource: MatTableDataSource<KeyLicense>
   licenses: KeyLicense[] = []
   applications: Application[] = []
+  static extendOption : boolean;
   static applicationId: number;
   modalRef: BsModalRef;
   selectedId: number;
@@ -44,6 +47,13 @@ export class LicensesComponent implements OnInit {
   pipe = new DatePipe('en-US');
   now = Date.now();
   isAuth: boolean = false;
+  keyGenerateComponent = KeygenerateComponent;
+  keyExtendComponent = ExtendkeyComponent;
+  faCircle = faClock
+  faDelete = faXmarkCircle
+  faReset = faRepeat
+  faAdd = faPlus
+  faDisable = faLock
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
   constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
@@ -58,6 +68,7 @@ export class LicensesComponent implements OnInit {
   onChange($event) {
     LicensesComponent.applicationId = $event.value.id;
     this.getLicensesByAppId()
+
   }
 
   getLicensesByAppId() {
@@ -113,17 +124,24 @@ export class LicensesComponent implements OnInit {
     })
   }
 
+  setExtendOption(option: boolean,keyId:number) {
+    LicensesComponent.extendOption = option;
+    if(keyId != undefined || keyId != null){
+      ExtendkeyComponent.keyId = keyId;
+    }
+  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
 
-  openGeneratePanel() {
+  openGeneratePanel(component) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '500px';
-    dialogConfig.height = '180px';
-    this.matDialog.open(KeygenerateComponent, dialogConfig).afterClosed().subscribe(result => {
+    dialogConfig.width = '450px';
+    dialogConfig.height = '250px';
+    this.matDialog.open(component,dialogConfig).afterClosed().subscribe(result => {
       if (LicensesComponent.applicationId != undefined)
         this.getLicensesByAppId()
       else {

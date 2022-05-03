@@ -1,0 +1,48 @@
+<div class="parent">
+  <p style="font-weight: 500;">Extend all keys in this application</p> 
+  <mat-form-field style="width: 420px;" appearance="fill">
+    <mat-label>Select an expiry count</mat-label>
+    <mat-select [(value)]="selectCount">
+      <mat-option  *ngFor="let number of countArray" [value]="number" >{{number}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+    <mat-form-field style="width: 420px;" appearance="fill">
+      <mat-label>Select an expiry date..</mat-label>
+      <mat-select [(value)]="selectOption">
+        <mat-option value="1">Day</mat-option>
+        <mat-option value="2">Week</mat-option>
+        <mat-option value="3">Month</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      [disabled]="!this.selectOption"
+      (click)="openModal(template)"
+      mat-raised-button
+      style="background-color: green; width: 200px;margin-left: 105px;"
+      color="primary"
+    >
+      Generate
+    </button>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to extend all keys?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="confirm()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  

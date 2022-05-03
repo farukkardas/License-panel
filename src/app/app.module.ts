@@ -28,6 +28,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { LogsComponent } from './components/logs/logs.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateapplicationComponent } from './components/dialogModels/createapplication/createapplication.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ExtendkeyComponent } from './components/dialogModels/extendkey/extendkey.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { CreateapplicationComponent } from './components/dialogModels/createappl
     AddpanelComponent,
     LogsComponent,
     DashboardComponent,
-    CreateapplicationComponent
+    CreateapplicationComponent,
+    ExtendkeyComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import { CreateapplicationComponent } from './components/dialogModels/createappl
     MatSelectModule,
     ModalModule.forRoot(),
     ClipboardModule,
-    MatSidenavModule
+    MatSidenavModule,
+    FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

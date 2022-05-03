@@ -12,55 +12,63 @@ import { ResponseModel } from '../models/ResponseModel';
 export class LicenseService {
   apiUrl = "http://localhost:7225/api/license/";
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService) { }
+  constructor(private httpClient: HttpClient) { }
 
   getLicenses(): Observable<ListResponseModel<KeyLicense>> {
     return this.httpClient.get<ListResponseModel<KeyLicense>>(this.apiUrl + "getlicenses")
   }
 
-  getLicensesByAppId(appId:number): Observable<ListResponseModel<KeyLicense>> {
+  getLicensesByAppId(appId: number): Observable<ListResponseModel<KeyLicense>> {
     return this.httpClient.get<ListResponseModel<KeyLicense>>(this.apiUrl + "GetLicenseByAppId?applicationId=" + appId);
   }
 
   DeleteAllLicensesByAppId(applicationId: number) {
     const params = new HttpParams()
 
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteAllLicensesByAppId?applicationId=" + applicationId,params);
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteAllLicensesByAppId?applicationId=" + applicationId, params);
   }
 
   generateLicense(keyExpiration: number, applicationId: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration + "&applicationId=" + applicationId,params );
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration + "&applicationId=" + applicationId, params);
   }
 
   generateLicenseLocalSeller(keyExpiration: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration,params);
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "newlicense?keyEnd=" + keyExpiration, params);
   }
 
   deleteLicense(deleteKeyId: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "deletelicense?keyId=" + deleteKeyId,params );
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "deletelicense?keyId=" + deleteKeyId, params);
   }
 
-  resetHwid(keyId:number){
+  resetHwid(keyId: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "ResetHwid?keyId=" + keyId,params );
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "ResetHwid?keyId=" + keyId, params);
   }
 
-  deleteAllKeys()
-  {
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "deletealllicenses",null);
+  deleteAllKeys() {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "deletealllicenses", null);
   }
 
-  resetAllHwids(){
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "resetalllicenses",null);
+  resetAllHwids() {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "resetalllicenses", null);
   }
 
   resetAllLicensesByAppId(applicationId: number) {
     const params = new HttpParams()
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "ResetAllLicensesByAppId?applicationId=" + applicationId,params);
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "ResetAllLicensesByAppId?applicationId=" + applicationId, params);
   }
-  
 
+
+  extendAllKeys(timeSelection: number, dateOption: number, applicationId: number): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "extendalllicenses?timeSelection=" + timeSelection + "&dateOption=" + dateOption + "&applicationId=" + applicationId, null);
+  }
+
+  extendLicense(timeSelection: number, dateOption: number, keyId: number): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "extendlicense?timeSelection=" + timeSelection + "&dateOption=" + dateOption + "&keyId=" + keyId, null);
+  }
+
+  
 }
