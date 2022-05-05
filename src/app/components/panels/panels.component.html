@@ -14,7 +14,7 @@
         </div>
         <div *ngIf="isAuth" class="col-sm">
           <p class="title-app">Choose application</p>
-          <mat-form-field style="width: 250px;" appearance="fill">
+          <mat-form-field  style="width: 250px;" appearance="fill">
             <mat-label>Choose an application </mat-label>
             <mat-select  (selectionChange)="onChange($event)">
               <mat-option *ngFor="let application of applications" (selectionChange)="onChange($event)"

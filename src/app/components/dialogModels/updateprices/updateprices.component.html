@@ -1,0 +1,75 @@
+<div class="parent">
+    <p style="font-weight: 600;color: red;text-align: center;padding-bottom: 10px;">*All fields required.</p>
+    <form [formGroup]="priceForm">
+      <div class="form-floating mb-3">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="dailyPrice"
+          id="floatingInput"
+          placeholder="Daily Price.."
+        />
+        <label for="floatingInput">Daily Price..</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="weeklyPrice"
+          id="floatingPassword"
+          placeholder="Weekly Price.."
+        />
+        <label for="floatingPassword">Weekly Price..</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="monthlyPrice"
+          id="floatingBalance"
+          placeholder="Monthly Price.."
+        />
+        <label for="floatingBalance">Monthly Price..</label>
+      </div>
+  
+  
+      <mat-form-field style="width: 250px;" appearance="fill">
+        <mat-label>Choose an application </mat-label>
+        <mat-select (selectionChange)="onChange($event)">
+          <mat-option *ngFor="let application of applications"  (selectionChange)="onChange($event)" [value]="application">{{application.applicationName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+     
+      <div class="d-grid">
+        <button (click)="openModal(template)"
+          class="btn btn-primary btn-login text-uppercase fw-bold"
+          type="submit"
+        >
+          Set Prices
+        </button>
+      </div>
+    </form>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to add?</p>
+        <button
+          type="button"
+          mat-raised-button
+          class="btn btn-default"
+          (click)="confirm()"
+        >
+          Yes
+        </button>
+        <button
+        style="margin-left: 10px;"
+          type="button"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="decline()"
+        >
+          No
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  

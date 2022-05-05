@@ -68,6 +68,7 @@ export class AddpanelComponent implements OnInit {
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
         }, error: (responseError) => {
+          console.log(responseError)
           if (responseError.status == 400 && responseError.error.Errors != null) {
             for (let index = 0; index < responseError.error.Errors.length; index++) {
               this.toastrService.error(responseError.error.Errors[index].ErrorMessage, "Error", { positionClass: "toast-bottom-right" })

@@ -1,14 +1,21 @@
 <div class="parent">
+  <mat-form-field *ngIf="isAuth" style="width: 250px;" appearance="fill">
+    <mat-label>Choose an application </mat-label>
+    <mat-select (selectionChange)="onChange($event)">
+      <mat-option *ngFor="let application of applications"  (selectionChange)="onChange($event)" [value]="application">{{application.applicationName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-form-field style="width: 420px;" appearance="fill">
     <mat-label>Select an expiry date..</mat-label>
     <mat-select [(value)]="selectOption">
-      <mat-option value="1">Daily (3$)</mat-option>
-      <mat-option value="2">Weekly (15$)</mat-option>
-      <mat-option value="3">Monthly (30$)</mat-option>
+      <mat-option value="1">Daily ({{this.activeApplication.dailyPrice}}$) </mat-option>
+      <mat-option value="2">Weekly ({{this.activeApplication.weeklyPrice}}$)</mat-option>
+      <mat-option value="3">Monthly ({{this.activeApplication.monthlyPrice}}$)</mat-option>
     </mat-select>
   </mat-form-field>
   <button
     [disabled]="!this.selectOption"
+    
     (click)="openModal(template)"
     mat-raised-button
     style="background-color: green; width: 200px;margin-left: 105px;"
@@ -29,6 +36,7 @@
       </button>
       <button
         type="button"
+        style="margin-left: 10px;"
         mat-raised-button
         class="btn btn-primary"
         (click)="decline()"

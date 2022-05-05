@@ -18,8 +18,9 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/Application';
 import { CreateapplicationComponent } from '../dialogModels/createapplication/createapplication.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { faCircleExclamation, faClock, faCoffee, faLock, faPlus, faPlusCircle, faRepeat, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCalendarTimes, faCircleExclamation, faClock, faCoffee, faLock, faMoneyBill, faMoneyBill1Wave, faPlus, faPlusCircle, faRepeat, faTabletButton, faTrash, faTrashArrowUp, faTrashRestore, faTrashRestoreAlt, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { ExtendkeyComponent } from '../dialogModels/extendkey/extendkey.component';
+import { UpdatepricesComponent } from '../dialogModels/updateprices/updateprices.component';
 
 @Component({
   selector: 'app-licenses',
@@ -34,11 +35,11 @@ export class LicensesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isEmpty: boolean = false;
-  displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset','extend-key', 'delete'];
+  displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset', 'extend-key', 'delete'];
   dataSource: MatTableDataSource<KeyLicense>
   licenses: KeyLicense[] = []
   applications: Application[] = []
-  static extendOption : boolean;
+  static extendOption: boolean;
   static applicationId: number;
   modalRef: BsModalRef;
   selectedId: number;
@@ -49,20 +50,47 @@ export class LicensesComponent implements OnInit {
   isAuth: boolean = false;
   keyGenerateComponent = KeygenerateComponent;
   keyExtendComponent = ExtendkeyComponent;
+  createApplicationComponent = CreateapplicationComponent
+  updatePricesComponent = UpdatepricesComponent
   faCircle = faClock
-  faDelete = faXmarkCircle
+  faDelete = faTrash
   faReset = faRepeat
+  faApplication = faTabletButton
+  faDeleteUnused = faXmarkCircle
   faAdd = faPlus
+  faUpdate = faMoneyBill1Wave
   faDisable = faLock
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
   constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.getAppById()
+   this.getAppById()
     this.getLicenses()
     this.getUserDetails()
-    this.disableDivs()
+   this.disableDivs()
+  }
+
+  deleteUnusedKeys() {
+    if (LicensesComponent.applicationId == null || LicensesComponent.applicationId == undefined) {
+      this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' })
+      return;
+    }
+    this.licenseService.deleteUnusedKeys(LicensesComponent.applicationId).subscribe({
+      next: (response) => {
+        this.toastrService.success("All unused keys deleted!", "Success", { positionClass: "toast-bottom-right" })
+        this.getLicenses()
+      }, error: (error) => {
+        if (error.error.message != null) {
+          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        }
+        else {
+          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+        }
+      },complete:()=>{
+        this.modalRef.hide()
+      }
+    })
   }
 
   onChange($event) {
@@ -112,6 +140,7 @@ export class LicensesComponent implements OnInit {
         this.dataSource.paginator = this.paginator
         this.dataSource.sort = this.sort
       }, error: (responseError) => {
+        console.log(responseError)
         if (responseError.error.message != null) {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
@@ -124,9 +153,9 @@ export class LicensesComponent implements OnInit {
     })
   }
 
-  setExtendOption(option: boolean,keyId:number) {
+  setExtendOption(option: boolean, keyId: number) {
     LicensesComponent.extendOption = option;
-    if(keyId != undefined || keyId != null){
+    if (keyId != undefined || keyId != null) {
       ExtendkeyComponent.keyId = keyId;
     }
   }
@@ -137,11 +166,15 @@ export class LicensesComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  deleteAllUnusedKeys() {
+
+  }
+
   openGeneratePanel(component) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '450px';
-    dialogConfig.height = '250px';
-    this.matDialog.open(component,dialogConfig).afterClosed().subscribe(result => {
+    dialogConfig.height = '300px';
+    this.matDialog.open(component, dialogConfig).afterClosed().subscribe(result => {
       if (LicensesComponent.applicationId != undefined)
         this.getLicensesByAppId()
       else {
@@ -151,11 +184,14 @@ export class LicensesComponent implements OnInit {
     });
   }
 
-  openCreateGeneratePanel() {
+  openCreateGeneratePanel(component) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '600px';
-    dialogConfig.height = '300px';
-    this.matDialog.open(CreateapplicationComponent, dialogConfig).afterClosed().subscribe(result => {
+    dialogConfig.width = '700px';
+    dialogConfig.height = '500px';
+    if(component == CreateapplicationComponent){
+      dialogConfig.height = '250px';
+    }
+    this.matDialog.open(component, dialogConfig).afterClosed().subscribe(result => {
       this.getLicenses()
       this.getAppById()
     });
@@ -194,7 +230,7 @@ export class LicensesComponent implements OnInit {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }, complete: () => {
-        this.getLicensesByAppId()
+        this.getLicenses()
         this.modalRef.hide()
       }
     })

@@ -71,6 +71,7 @@ export class PanelsComponent implements OnInit {
 
   onChange($event) {
     PanelsComponent.appId = $event.value.id;
+    console.log(PanelsComponent.appId)
     this.getPanelsByAppId()
   }
 

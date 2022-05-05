@@ -52,6 +52,8 @@ export class ExtendkeyComponent implements OnInit {
           error: (responseError) => {
             console.log(responseError)
             this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+          },complete: () => {
+            this.modalRef.hide()
           }
         })
     }
@@ -61,6 +63,8 @@ export class ExtendkeyComponent implements OnInit {
           this.toastrService.success(response.message, "Success", { positionClass: 'toast-bottom-right' })
         }, error: (responseError) => {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+        },complete: () => {
+          this.modalRef.hide()
         }
       })
     }

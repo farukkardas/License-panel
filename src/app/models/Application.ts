@@ -4,4 +4,7 @@ export class Application {
     ownerId: number;
     createdDate: Date;
     status: Boolean;
+    dailyPrice:number;
+    weeklyPrice:number;
+    monthlyPrice:number;
 }

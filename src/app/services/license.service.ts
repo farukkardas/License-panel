@@ -70,5 +70,9 @@ export class LicenseService {
     return this.httpClient.post<ResponseModel>(this.apiUrl + "extendlicense?timeSelection=" + timeSelection + "&dateOption=" + dateOption + "&keyId=" + keyId, null);
   }
 
+  deleteUnusedKeys(applicationId: number): Observable<ResponseModel> {
+    const params = new HttpParams()
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteUnusedKeys?applicationId=" + applicationId, params);
+  }
   
 }

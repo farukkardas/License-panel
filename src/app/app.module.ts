@@ -30,6 +30,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateapplicationComponent } from './components/dialogModels/createapplication/createapplication.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ExtendkeyComponent } from './components/dialogModels/extendkey/extendkey.component';
+import { UpdatepricesComponent } from './components/dialogModels/updateprices/updateprices.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ExtendkeyComponent } from './components/dialogModels/extendkey/extendke
     LogsComponent,
     DashboardComponent,
     CreateapplicationComponent,
-    ExtendkeyComponent
+    ExtendkeyComponent,
+    UpdatepricesComponent
   ],
   imports: [
     BrowserModule,

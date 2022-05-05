@@ -21,10 +21,13 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <button color="primary" style="background-color: green;" mat-raised-button (click)="openCreateGeneratePanel()"> 
-            <fa-icon [icon]="faAdd"></fa-icon>
-
+          <button color="primary" style="background-color: green;" mat-raised-button (click)="openCreateGeneratePanel(createApplicationComponent)"> 
+            <fa-icon [icon]="faApplication"></fa-icon>
             Create application
+          </button>
+          <button color="primary" style="background-color: orange;" mat-raised-button (click)="openCreateGeneratePanel(updatePricesComponent)"> 
+            <fa-icon [icon]="faUpdate"></fa-icon>
+            Set License Prices
           </button>
           <button mat-raised-button (click)="openJustModal(deleteapplication)" style="background-color: red;"
             color="primary">
@@ -59,11 +62,17 @@
             <fa-icon [icon]="faDelete"></fa-icon>
             Delete All Keys
           </button>
+          <button *ngIf="isAuth" mat-raised-button (click)="openJustModal(deleteunusedkeys)"  style="background-color: red;" color="primary">
+            <fa-icon [icon]="faDeleteUnused"></fa-icon>
+            Delete Unused Keys
+          </button>
        
           <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
             <fa-icon [icon]="faCircle"></fa-icon>
             Extend All Keys
           </button>
+
+        
         </div>
       </div>
       <div id="export-bar" class="mt-4 row">
@@ -178,6 +187,20 @@
         </p>
         <p>Do you want to delete all keys?</p>
         <button type="button" mat-raised-button class="btn btn-default" (click)="deleteAllKeys()">
+          Yes
+        </button>
+        <button type="button" mat-raised-button class="btn btn-primary" (click)="decline()">
+          No
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #deleteunusedkeys>
+      <div class="modal-body text-center">
+        <p style="color: red;font-weight: 600;">
+          [ WARNING - THIS WILL DELETE ALL UNUSED KEYS ]
+        </p>
+        <p>Do you want to delete all unused keys?</p>
+        <button type="button" mat-raised-button class="btn btn-default" (click)="deleteUnusedKeys()">
           Yes
         </button>
         <button type="button" mat-raised-button class="btn btn-primary" (click)="decline()">
