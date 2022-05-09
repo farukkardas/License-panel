@@ -74,5 +74,13 @@ export class LicenseService {
     const params = new HttpParams()
     return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteUnusedKeys?applicationId=" + applicationId, params);
   }
-  
+
+
+//deleteexpiredkeys with paramter applicationid or null
+  deleteExpiredKeys(...args: [applicationId: number]): Observable<ResponseModel> {
+    const params = new HttpParams();
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "DeleteExpiredKeys?applicationId=" + args, params);
+
+  }
+
 }

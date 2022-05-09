@@ -57,6 +57,10 @@
 
             Hwid Reset All Keys
           </button>
+          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
+            <fa-icon [icon]="faCircle"></fa-icon>
+            Extend All Keys
+          </button>
           <button mat-raised-button (click)="openJustModal(deletetemplate)" style="background-color: red;"
             color="primary">
             <fa-icon [icon]="faDelete"></fa-icon>
@@ -66,11 +70,12 @@
             <fa-icon [icon]="faDeleteUnused"></fa-icon>
             Delete Unused Keys
           </button>
-       
-          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
-            <fa-icon [icon]="faCircle"></fa-icon>
-            Extend All Keys
-          </button>
+          <button mat-raised-button (click)="openJustModal(deleteexpiredkeys)" style="background-color: red;"
+          color="primary">
+          <fa-icon [icon]="faCalendar"></fa-icon>
+          Delete Expired Keys
+        </button>
+         
 
         
         </div>
@@ -230,6 +235,23 @@
         </p>
         <p>Do you want to delete this application?</p>
         <button type="button" mat-raised-button class="btn btn-default" (click)="deleteApplication()">
+          Yes
+        </button>
+        <button type="button" mat-raised-button class="btn btn-primary" (click)="decline()">
+          No
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #deleteexpiredkeys>
+      <div class="modal-body text-center">
+        <p style="color: red;font-weight: 600;">
+          [ WARNING - THIS OPERATION WILL DELETE ALL EXPIRED KEYS ]
+          <br>
+          <br>
+          [ THIS PROCCESS CANNOT BE REVERT ]
+        </p>
+        <p>Do you want to delete expired keys?</p>
+        <button type="button" mat-raised-button class="btn btn-default" (click)="deleteExpiredKeys()">
           Yes
         </button>
         <button type="button" mat-raised-button class="btn btn-primary" (click)="decline()">

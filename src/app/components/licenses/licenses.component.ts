@@ -18,7 +18,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/Application';
 import { CreateapplicationComponent } from '../dialogModels/createapplication/createapplication.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { faCalendar, faCalendarTimes, faCircleExclamation, faClock, faCoffee, faLock, faMoneyBill, faMoneyBill1Wave, faPlus, faPlusCircle, faRepeat, faTabletButton, faTrash, faTrashArrowUp, faTrashRestore, faTrashRestoreAlt, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCalendarTimes, faCalendarXmark, faCircleExclamation, faClock, faCoffee, faLock, faMoneyBill, faMoneyBill1Wave, faPlus, faPlusCircle, faRepeat, faTabletButton, faTrash, faTrashArrowUp, faTrashRestore, faTrashRestoreAlt, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { ExtendkeyComponent } from '../dialogModels/extendkey/extendkey.component';
 import { UpdatepricesComponent } from '../dialogModels/updateprices/updateprices.component';
 
@@ -60,15 +60,16 @@ export class LicensesComponent implements OnInit {
   faAdd = faPlus
   faUpdate = faMoneyBill1Wave
   faDisable = faLock
+  faCalendar = faCalendarXmark
   myFormattedDate = this.pipe.transform(this.now, 'short');
 
   constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
-   this.getAppById()
+    this.getAppById()
     this.getLicenses()
     this.getUserDetails()
-   this.disableDivs()
+    this.disableDivs()
   }
 
   deleteUnusedKeys() {
@@ -87,7 +88,7 @@ export class LicensesComponent implements OnInit {
         else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
         }
-      },complete:()=>{
+      }, complete: () => {
         this.modalRef.hide()
       }
     })
@@ -98,6 +99,56 @@ export class LicensesComponent implements OnInit {
     this.getLicensesByAppId()
 
   }
+
+  // delete expired keys from licenseService
+
+  deleteExpiredKeys() {
+
+    if (!this.isAuth) {
+      this.licenseService.deleteExpiredKeys(null).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }, error: (error) => {
+          if (error.error.message != null) {
+            this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+          }
+          else {
+            console.log(error)
+            this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+          }
+        }, complete: () => {
+          this.getLicenses()
+          this.modalRef.hide()
+        }
+      })
+    }
+
+    else {
+      if (LicensesComponent.applicationId == null || LicensesComponent.applicationId == undefined) {
+        this.toastrService.error("Please select application!", "Error", { positionClass: 'toast-bottom-right' })
+        return;
+      }
+      this.licenseService.deleteExpiredKeys(LicensesComponent.applicationId).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
+        }, error: (error) => {
+          if (error.error.message != null) {
+            this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
+          }
+          else {
+            console.log(error)
+            this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+          }
+        }, complete: () => {
+          this.getLicensesByAppId()
+          this.modalRef.hide()
+        }
+      })
+    }
+
+
+  }
+
 
   getLicensesByAppId() {
     this.licenseService.getLicensesByAppId(LicensesComponent.applicationId).subscribe({
@@ -188,7 +239,7 @@ export class LicensesComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '700px';
     dialogConfig.height = '500px';
-    if(component == CreateapplicationComponent){
+    if (component == CreateapplicationComponent) {
       dialogConfig.height = '250px';
     }
     this.matDialog.open(component, dialogConfig).afterClosed().subscribe(result => {

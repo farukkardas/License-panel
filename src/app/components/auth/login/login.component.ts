@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
   login() {
     this.buttonEnabled = false;
-    setTimeout(() => this.enableButton(), 4000)
+    setTimeout(() => this.enableButton(), 10000)
 
     let loginModel: LoginModel = { ...this.loginForm.value };
 
