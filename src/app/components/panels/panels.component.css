@@ -31,6 +31,11 @@
 }
 
 
+h2{
+  font-family: ubuntu;
+  font-weight: 600;
+}
+
 #mainBody {
   margin-left: 320px;
   padding-top: 10px;
@@ -44,13 +49,6 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
-
-.title {
-  padding-left: 15px;
-  padding-top: 7px;
-}
-
-
 
 .topbar>p {
   margin: auto 0 auto auto;
@@ -85,12 +83,7 @@ th.mat-sort-header-sorted {
   height: 40px;
 }
 
-.balance-text {
-  float: right;
-  font-weight: 400;
-  font-size: 16px;
-  padding-right: 40px;
-}
+
 
 .col-sm>.mat-raised-button {
   background-color: cornflowerblue;

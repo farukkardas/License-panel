@@ -4,6 +4,7 @@ export class Application {
     ownerId: number;
     createdDate: Date;
     status: Boolean;
+    secretKey : string;
     dailyPrice:number;
     weeklyPrice:number;
     monthlyPrice:number;

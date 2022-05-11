@@ -11,6 +11,12 @@
   }
 }
 
+.nav-link{
+ font-family: ubuntu;
+ font-weight: 500; 
+}
+
+
 #sidebar {
   background: #fff8dc;
   top: 0;
@@ -23,6 +29,8 @@
   position: fixed;
   width: 260px;
 }
+
+
 
 .dropdown-toggle::after {
   display:none;
@@ -65,7 +73,9 @@ button{
   height: 40;
   width: 100%;
   text-align: left;
+  font-weight: 500;
   font-size: 14px;
+  font-family: ubuntu;
 }
 
 button:hover{

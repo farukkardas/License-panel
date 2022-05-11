@@ -13,40 +13,51 @@
       </div>
       <div *ngIf="isAuth" class="d-flex flex-column">
         <p class="title-app">Choose application</p>
-        <mat-form-field style="width: 250px;" appearance="fill">
-          <mat-label>Choose an application </mat-label>
-          <mat-select (selectionChange)="onChange($event)">
-            <mat-option *ngFor="let application of applications" (selectionChange)="onChange($event)"
-              [value]="application">{{application.applicationName | uppercase}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div>
-          <button color="primary" style="background-color: green;" mat-raised-button (click)="openCreateGeneratePanel(createApplicationComponent)"> 
+        <div class="row">
+          <div class="col-md-2 justify-content-center align-self-center ">
+            <mat-form-field style="width: 250px;" appearance="fill">
+              <mat-label>Choose an application </mat-label>
+              <mat-select [(value)]="selectedApp" (selectionChange)="onChange($event)">
+                <mat-option *ngFor="let application of applications"  
+                  [value]="application">{{application.applicationName | uppercase}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class=" col-md-5">
+            <div class="p-2 appBox bg-light"> <p>App ID: {{this.selectedApp.id}}</p></div>
+           
+          </div>
+          <div class=" col-md-5">
+            <div class="p-2 secretBox bg-light"> <p>Secret Key: {{this.selectedApp.secretKey}}</p></div>
+          </div>
+        </div>
+        <div class="pt-5">
+          <button color="primary" style="background-color: green;" mat-raised-button
+            (click)="openCreateGeneratePanel(createApplicationComponent)">
             <fa-icon [icon]="faApplication"></fa-icon>
             Create application
           </button>
-          <button color="primary" style="background-color: orange;" mat-raised-button (click)="openCreateGeneratePanel(updatePricesComponent)"> 
+          <button color="primary" style="background-color: orange;" mat-raised-button
+            (click)="openCreateGeneratePanel(updatePricesComponent)">
             <fa-icon [icon]="faUpdate"></fa-icon>
             Set License Prices
           </button>
-          <button mat-raised-button (click)="openJustModal(deleteapplication)" style="background-color: red;"
-            color="primary">
-            <fa-icon [icon]="faDelete"></fa-icon>
-
-            Delete this Application
+          <button mat-raised-button (click)="disableApplication()" style="background-color: grey;" color="primary">
+            <fa-icon [icon]="faDisable"></fa-icon>
+            Disable this Application
           </button>
-          <button mat-raised-button (click)="disableApplication()" style="background-color: grey;"
+          <button mat-raised-button (click)="openJustModal(deleteapplication)" style="background-color: red;"
           color="primary">
-          <fa-icon [icon]="faDisable"></fa-icon>
-
-          Disable this Application
+          <fa-icon [icon]="faDelete"></fa-icon>
+          Delete this Application
         </button>
         </div>
       </div>
       <div class="mt-4 row">
         <div class="col-sm">
           <P class="title-app">Licenses</P>
-          <button mat-raised-button (click)="openGeneratePanel(keyGenerateComponent)" style="background-color: green;" color="primary">
+          <button mat-raised-button (click)="openGeneratePanel(keyGenerateComponent)" style="background-color: green;"
+            color="primary">
             <fa-icon [icon]="faAdd"></fa-icon>
 
             Generate New Key
@@ -57,7 +68,8 @@
 
             Hwid Reset All Keys
           </button>
-          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
+          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)"
+            (click)="setExtendOption(true)" style="background-color: rgb(41, 182, 182);" color="primary">
             <fa-icon [icon]="faCircle"></fa-icon>
             Extend All Keys
           </button>
@@ -66,18 +78,19 @@
             <fa-icon [icon]="faDelete"></fa-icon>
             Delete All Keys
           </button>
-          <button *ngIf="isAuth" mat-raised-button (click)="openJustModal(deleteunusedkeys)"  style="background-color: red;" color="primary">
+          <button *ngIf="isAuth" mat-raised-button (click)="openJustModal(deleteunusedkeys)"
+            style="background-color: red;" color="primary">
             <fa-icon [icon]="faDeleteUnused"></fa-icon>
             Delete Unused Keys
           </button>
           <button mat-raised-button (click)="openJustModal(deleteexpiredkeys)" style="background-color: red;"
-          color="primary">
-          <fa-icon [icon]="faCalendar"></fa-icon>
-          Delete Expired Keys
-        </button>
-         
+            color="primary">
+            <fa-icon [icon]="faCalendar"></fa-icon>
+            Delete Expired Keys
+          </button>
 
-        
+
+
         </div>
       </div>
       <div id="export-bar" class="mt-4 row">
@@ -144,10 +157,11 @@
         </td>
       </ng-container>
 
-      <ng-container  matColumnDef="extend-key">
+      <ng-container matColumnDef="extend-key">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let element">
-          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)" (click)="setExtendOption(false,element.id)" style="background-color: rgb(41, 182, 182);" color="warn">
+          <button *ngIf="isAuth" mat-raised-button (click)="openGeneratePanel(keyExtendComponent)"
+            (click)="setExtendOption(false,element.id)" style="background-color: rgb(41, 182, 182);" color="warn">
             <fa-icon [icon]="faCircle"></fa-icon>
             Extend Time
           </button>

@@ -29,6 +29,11 @@
 }
 
 
+h2{
+  font-family: ubuntu;
+  font-weight: 600;
+}
+
 #mainBody {
   margin-left: 320px;
   padding-right: 20px;
@@ -37,11 +42,6 @@
 
 table {
   width: 100%;
-}
-
-.title{
-  padding-left: 15px;
-  padding-top: 7px;
 }
 
 .form-control {

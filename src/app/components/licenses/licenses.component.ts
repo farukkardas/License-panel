@@ -44,9 +44,11 @@ export class LicensesComponent implements OnInit {
   modalRef: BsModalRef;
   selectedId: number;
   userBalance: number;
+  selectedApp:Application = new Application;
   matTableExporter: any;
   pipe = new DatePipe('en-US');
   now = Date.now();
+  supremeId:number;
   isAuth: boolean = false;
   keyGenerateComponent = KeygenerateComponent;
   keyExtendComponent = ExtendkeyComponent;
@@ -97,7 +99,6 @@ export class LicensesComponent implements OnInit {
   onChange($event) {
     LicensesComponent.applicationId = $event.value.id;
     this.getLicensesByAppId()
-
   }
 
   // delete expired keys from licenseService
@@ -158,6 +159,7 @@ export class LicensesComponent implements OnInit {
         this.dataSource.sort = this.sort
         this.dataSource.paginator = this.paginator
       }, error: (error) => {
+        console.log(error)
         this.toastrService.error("Error when getting licenses!", "Error", { positionClass: "toast-bottom-right" })
       }
     })
@@ -226,11 +228,7 @@ export class LicensesComponent implements OnInit {
     dialogConfig.width = '450px';
     dialogConfig.height = '300px';
     this.matDialog.open(component, dialogConfig).afterClosed().subscribe(result => {
-      if (LicensesComponent.applicationId != undefined)
-        this.getLicensesByAppId()
-      else {
-        this.getLicenses()
-      }
+      this.getLicenses()
       this.getUserDetails()
     });
   }
@@ -328,6 +326,7 @@ export class LicensesComponent implements OnInit {
         next: (response) => {
           this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
         }, error: (error) => {
+          console.log(error)
           this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
         }, complete: () => {
           this.getLicenses()
@@ -484,6 +483,7 @@ export class LicensesComponent implements OnInit {
       next: (response) => {
         this.applications = response.data;
       }, error: (error) => {
+        console.log(error)
         this.toastrService.error(error.message, "Error", { positionClass: "toast-bottom-right" })
       }, complete: () => {
         this.getLicenses()

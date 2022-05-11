@@ -29,6 +29,27 @@
 
 }
 
+.appBox {
+  border: 3px solid #ccc;
+  background-color: gainsboro;
+}
+
+.appBox>p {
+  font-family: ubuntu;
+  font-weight: 600;
+}
+
+.secretBox {
+  border: 3px solid #ccc;
+  background-color: gainsboro;
+}
+
+.secretBox>p {
+  font-family: ubuntu;
+  font-weight: 600;
+}
+
+
 .container {
   margin-left: 0px;
 }
@@ -60,23 +81,12 @@ th.mat-sort-header-sorted {
   margin: auto 0 auto auto;
 }
 
-.title {
-  padding-left: 15px;
-  padding-top: 7px;
+
+h2 {
+  font-family: ubuntu;
+  font-weight: 600;
 }
 
-.title-app {
-  padding-left: 5px;
-  padding-top: 7px;
-  font-weight: 500;
-}
-
-.balance-text {
-  float: right;
-  font-weight: 400;
-  font-size: 16px;
-  padding-right: 40px;
-}
 
 .form-control {
   width: 250px;

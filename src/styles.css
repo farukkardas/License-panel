@@ -7,11 +7,38 @@
   src: url(src/assets/font/monserrat.ttf) format("opentype");
 }
 
+@font-face {
+  font-family: ubuntu;
+  src: url(src/assets/font/Ubuntu-Light.ttf) format("opentype");
+}
+
+
 td {
   font-size: 14px;
   font-family: monserrat;
+  font-weight: 300;
+}
+
+.balance-text{
+  font-family: ubuntu;
+  font-weight: 1000;
+  float: right;
+  font-size: 16px;
+ padding-right: 40px;
+}
+
+.title {
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+.title-app{
+  font-family: monserrat;
+  padding-left: 5px;
+  padding-top: 7px;
   font-weight: 500;
 }
+
 
 html,
 body {
