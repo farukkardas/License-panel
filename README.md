@@ -1,7 +1,7 @@
 # License System Angular Admin Panel
 
 ## Hakkında ( Türkçe )
-Key lisanslama sisteminin admin paneli kısmı. Bu paneli bu API ile birlikte kullanabilirsiniz. -> [LicenseAPI](https://github.com/farukkardas/LicenseSystem) 
+Key lisanslama sisteminin admin paneli kısmı.
 
 `Bu proje hala geliştirme aşamasındadır gördüğünüz eksikleri giderebilir ve projeye katkıda bulunabilirsiniz.`
 
@@ -14,7 +14,7 @@ Key lisanslama sisteminin admin paneli kısmı. Bu paneli bu API ile birlikte ku
 
 
 ## Admin Panel ve Example Console App
-- [Angular Admin Panel](https://github.com/farukkardas/License-panel)
+- [API](https://github.com/farukkardas/LicenseSystem)
 - [Console APP](https://github.com/farukkardas/LicenseChecker)
 
 ## Gerekli Yazılımlar
