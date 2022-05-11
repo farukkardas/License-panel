@@ -3,14 +3,19 @@
 ## Hakkında ( Türkçe )
 Key lisanslama sisteminin admin paneli kısmı. Bu paneli bu API ile birlikte kullanabilirsiniz. -> [LicenseAPI](https://github.com/farukkardas/LicenseSystem) 
 
+`Bu proje hala geliştirme aşamasındadır gördüğünüz eksikleri giderebilir ve projeye katkıda bulunabilirsiniz.`
+
+`You can find EN README end of content.`
 
  <img src="https://i.hizliresim.com/lucxtez.png"></img> 
 
 <br>
 
-`Bu proje hala geliştirme aşamasındadır gördüğünüz eksikleri giderebilir ve projeye katkıda bulunabilirsiniz.`
 
-`You can find EN README end of content.`
+
+## Admin Panel ve Example Console App
+- [Angular Admin Panel](https://github.com/farukkardas/License-panel)
+- [Console APP](https://github.com/farukkardas/LicenseChecker)
 
 ## Gerekli Yazılımlar
 -NodeJS -> [Download NodeJS](https://nodejs.org/en/download/)
