@@ -31,6 +31,8 @@ import { CreateapplicationComponent } from './components/dialogModels/createappl
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ExtendkeyComponent } from './components/dialogModels/extendkey/extendkey.component';
 import { UpdatepricesComponent } from './components/dialogModels/updateprices/updateprices.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { BodyComponent } from './components/body/body.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import { UpdatepricesComponent } from './components/dialogModels/updateprices/up
     DashboardComponent,
     CreateapplicationComponent,
     ExtendkeyComponent,
-    UpdatepricesComponent
+    UpdatepricesComponent,
+    FooterComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,

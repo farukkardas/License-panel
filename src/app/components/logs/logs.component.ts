@@ -20,7 +20,7 @@ export class LogsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   isEmpty: boolean = false;
-  displayedColumns: any[] = ['id', 'message','ownerId','date', 'success'];
+  displayedColumns: any[] = ['id', 'message', 'ownerId', 'date', 'success'];
   dataSource: MatTableDataSource<Log>
 
   constructor(private logService: LogService, private toastrService: ToastrService) { }
@@ -29,6 +29,7 @@ export class LogsComponent implements OnInit {
     this.getUserLogs()
   }
 
+
   getUserLogs() {
     this.logService.getLogs().subscribe({
       next: (response) => {
@@ -36,10 +37,10 @@ export class LogsComponent implements OnInit {
         this.dataSource.sort = this.sort
         this.dataSource.paginator = this.paginator
       }, error: (responseError) => {
-        if(responseError.error.message != null){
+        if (responseError.error.message != null) {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
         }
-        else{
+        else {
           this.toastrService.error("Connection   error!", "Error", { positionClass: 'toast-bottom-right' })
         }
       }
@@ -62,9 +63,12 @@ export class LogsComponent implements OnInit {
   }
 
   //filter table by passing in the value of the search bar
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
+
 
 }

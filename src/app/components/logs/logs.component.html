@@ -6,7 +6,7 @@
     <div class="search-div">
       <input class="form-control"
         type="text" style="float:right"
-        placeholder="Search.." (keyup)="applyFilter($event)">
+        placeholder="Search.." (keyup)="applyFilter($event.target.value)">
     </div>
     <table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="table-responsive" mat-table matSort>
 

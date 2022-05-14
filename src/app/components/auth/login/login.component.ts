@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.checkIsLogged()
     this.createLoginForm()
+    this.buttonEnabled = true;
 
   }
   checkIsLogged() {
@@ -38,12 +39,8 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  enableButton() {
-    this.buttonEnabled = true;
-  }
   login() {
     this.buttonEnabled = false;
-    setTimeout(() => this.enableButton(), 10000)
 
     let loginModel: LoginModel = { ...this.loginForm.value };
 
@@ -68,7 +65,7 @@ export class LoginComponent implements OnInit {
           }
         }
 
-      
+
         const acceptedRoles = ['admin', 'reseller', 'localseller'];
         let getRole = decodedJwt.role;
 
@@ -90,12 +87,14 @@ export class LoginComponent implements OnInit {
         console.log(responseError)
         if (responseError.error.message != null) {
           this.toastrService.error(responseError.error.message, "Error", { positionClass: 'toast-bottom-right' })
+          this.buttonEnabled = true;
         }
         else {
           this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
+          this.buttonEnabled = true;
         }
       }, complete: () => {
-           setTimeout(() => { this.router.navigate([""]), window.location.reload() }, 2000)
+        setTimeout(() => { this.router.navigate([""]), window.location.reload() }, 2000)
 
       }
     })

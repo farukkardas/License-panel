@@ -9,7 +9,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: "", component: DashboardComponent, canActivate: [LoginGuard] },
+  { path: "", component: DashboardComponent , canActivate: [LoginGuard]  },
   { path: "licenses", component: LicensesComponent, canActivate: [LoginGuard] },
   { path: "login", component: LoginComponent },
   { path: "panels", component: PanelsComponent, canActivate: [LoginGuard] },

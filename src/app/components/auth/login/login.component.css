@@ -1,8 +1,18 @@
-body {
-  padding-top: 200px;
+
+body{
   background: #007bff;
   background: linear-gradient(to right, #0062E6, #33AEFF);
 }
+
+.col-sm-9{
+  position: absolute;
+    top:200px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
 
 .btn-login {
   font-size: 0.9rem;

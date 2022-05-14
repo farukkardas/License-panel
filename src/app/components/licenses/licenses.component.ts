@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Injectable, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ComponentType, ToastrService } from 'ngx-toastr';
@@ -44,11 +44,11 @@ export class LicensesComponent implements OnInit {
   modalRef: BsModalRef;
   selectedId: number;
   userBalance: number;
-  selectedApp:Application = new Application;
+  selectedApp: Application = new Application;
   matTableExporter: any;
   pipe = new DatePipe('en-US');
   now = Date.now();
-  supremeId:number;
+  supremeId: number;
   isAuth: boolean = false;
   keyGenerateComponent = KeygenerateComponent;
   keyExtendComponent = ExtendkeyComponent;
@@ -64,7 +64,7 @@ export class LicensesComponent implements OnInit {
   faDisable = faLock
   faCalendar = faCalendarXmark
   myFormattedDate = this.pipe.transform(this.now, 'short');
-
+  @Input() data: string = "test data";
   constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -73,6 +73,8 @@ export class LicensesComponent implements OnInit {
     this.getUserDetails()
     this.disableDivs()
   }
+
+
 
   deleteUnusedKeys() {
     if (LicensesComponent.applicationId == null || LicensesComponent.applicationId == undefined) {

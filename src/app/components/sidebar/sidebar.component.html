@@ -1,4 +1,4 @@
-<div id="sidebar" *ngIf="isAuth" style="height: 100%;" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark ">
+<!-- <div id="sidebar" *ngIf="isAuth" style="height: 100%;" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark ">
   <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
     <img class="bi me-2" width="32" height="32" src="assets/logo.png" alt="Auth Logo" />
     <span class="fs-4" style="font-family: monserrat;"> License Panel</span>
@@ -35,7 +35,7 @@
     <div ngbDropdown class="d-inline-block">
       <button style="width: 230px;" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <img class="bi me-2" width="26" height="24" src="assets/gear.png" alt="Auth Logo" />
-        Settings
+        Settings {{this.testMessage}}
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button style="font-family: ubuntu;" (click)="logout()" ngbDropdownItem>
@@ -45,4 +45,30 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+  <div class="logo-container">
+    <button class="logo" (click)="toggleCollapse()">
+      <img style="width: 32px; height:32px" src="assets/logo.png">
+    </button>
+    <div class="logo-text" *ngIf="collapsed">License</div>
+    <button class="btn-close" (click)="closeSidenav()"  *ngIf="collapsed">
+      <i class="fal fa-times close-icon"></i>
+    </button>
+  </div>
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-item" *ngFor="let data of navData">
+      <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" href="" class="sidenav-nav-link" [routerLink]="[data.routeLink]">
+        <img class="sidenav-link-icon" [src]="data.img">
+        <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
+      </a>
+    </li>
+    <li class="sidenav-nav-item">
+      <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" href="" (click)="logout()" class="sidenav-nav-link logout" [routerLink]="">
+        <img class="sidenav-link-icon" src="assets/logout.png">
+        <span class="sidenav-link-text" *ngIf="collapsed">Logout</span>
+      </a>
+    </li>
+  </ul>
 </div>

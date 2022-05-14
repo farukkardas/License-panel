@@ -15,4 +15,6 @@ export class LogService {
   getLogs():Observable<ListResponseModel<Log>> {
     return this.httpClient.get<ListResponseModel<Log>>(this.apiUrl + "getall")
   }
+
+  
 }

@@ -29,6 +29,10 @@
 
 }
 
+.export-bar{
+  margin-bottom: 30px;
+}
+
 .appBox {
   border: 3px solid #ccc;
   background-color: gainsboro;
@@ -50,16 +54,6 @@
 }
 
 
-.container {
-  margin-left: 0px;
-}
-
-#mainBody {
-  margin-left: 320px;
-  padding-right: 20px;
-  padding-top: 10px;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
@@ -77,9 +71,10 @@ th.mat-sort-header-sorted {
   margin-right: 15px;
 }
 
-.exportBar>input {
+.export-bar > input {
   margin: auto 0 auto auto;
 }
+
 
 
 h2 {
@@ -89,9 +84,8 @@ h2 {
 
 
 .form-control {
-  width: 250px;
-  float: right;
-  margin-right: 40px;
+ width: 200px;
+ float: right;
 }
 
 .col-sm>.mat-raised-button {

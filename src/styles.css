@@ -19,12 +19,12 @@ td {
   font-weight: 300;
 }
 
-.balance-text{
+.balance-text {
   font-family: ubuntu;
   font-weight: 1000;
   float: right;
   font-size: 16px;
- padding-right: 40px;
+  padding-right: 40px;
 }
 
 .title {
@@ -32,7 +32,7 @@ td {
   padding-top: 15px;
 }
 
-.title-app{
+.title-app {
   font-family: monserrat;
   padding-left: 5px;
   padding-top: 7px;
@@ -41,11 +41,17 @@ td {
 
 
 html,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   height: 100%;
 }
 
 body {
-  margin: 0;
+  position: relative;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }

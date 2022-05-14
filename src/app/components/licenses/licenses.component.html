@@ -15,7 +15,7 @@
         <p class="title-app">Choose application</p>
         <div class="row">
           <div class="col-md-2 justify-content-center align-self-center ">
-            <mat-form-field style="width: 250px;" appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>Choose an application </mat-label>
               <mat-select [(value)]="selectedApp" (selectionChange)="onChange($event)">
                 <mat-option *ngFor="let application of applications"  
@@ -28,10 +28,11 @@
            
           </div>
           <div class=" col-md-5">
-            <div class="p-2 secretBox bg-light"> <p>Secret Key: {{this.selectedApp.secretKey}}</p></div>
+            <div class="p-2 secretBox bg-light"> <p style="word-wrap: break-word;">Secret Key: {{this.selectedApp.secretKey}}</p></div>
           </div>
         </div>
-        <div class="pt-5">
+    
+        <div class="pt-3">
           <button color="primary" style="background-color: green;" mat-raised-button
             (click)="openCreateGeneratePanel(createApplicationComponent)">
             <fa-icon [icon]="faApplication"></fa-icon>
@@ -88,12 +89,9 @@
             <fa-icon [icon]="faCalendar"></fa-icon>
             Delete Expired Keys
           </button>
-
-
-
         </div>
       </div>
-      <div id="export-bar" class="mt-4 row">
+      <div class="export-bar row mt-4">
         <div class="col-sm">
           <P class="title-app">Export</P>
           <button mat-raised-button
