@@ -20,8 +20,6 @@ export class BodyComponent implements OnInit {
   getBodyClass(): string {
     let styleClass = '';
 
-
-
     if (this.isAuth) {
       styleClass = 'body'
       if (this.collapsed && this.screenWidth > 768) {
@@ -33,7 +31,6 @@ export class BodyComponent implements OnInit {
     else {
       styleClass = 'body-unauth'
     }
-    console.log(styleClass)
     return styleClass;
   }
 

@@ -1,5 +1,5 @@
 export class UserDetails{
-    id:number;
-    email:string;
-    balance:number;
+    id?:number;
+    email?:string;
+    balance?:number;
 }

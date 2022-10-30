@@ -4,13 +4,7 @@
       <h2>Licenses</h2>
     </div>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm">
-          <p class="balance-text">
-            Balance: {{userBalance| currency}}
-          </p>
-        </div>
-      </div>
+      
       <div *ngIf="isAuth" class="d-flex flex-column">
         <p class="title-app">Choose application</p>
         <div class="row">
@@ -108,7 +102,7 @@
       </div>
     </div>
 
-    <table id="licenseTable" [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" mat-table matSort
+    <table id="licenseTable" [dataSource]="(licenses$|async)" matTableExporter #exporter="matTableExporter" mat-table matSort
       class="table-responsive">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID.</th>

@@ -119,7 +119,7 @@ export class PanelsComponent implements OnInit {
 
   getUserDetails() {
     this.userService.getUserDetails().subscribe({
-      next: (response) => {
+      next: (response:any) => {
         this.userBalance = response.data.balance
       }, error: (error) => {
         if (error.error.message != null) {
@@ -179,7 +179,7 @@ export class PanelsComponent implements OnInit {
   }
 
   exportPdf() {
-    var prepare = [];
+    var prepare : any = [];
     this.panels.forEach(e => {
       var tempObj = [];
       tempObj.push(e.panelOwnerId);
@@ -200,19 +200,19 @@ export class PanelsComponent implements OnInit {
       body: prepare
     });
     doc.setFontSize(12)
-    doc.setFont(undefined, undefined, 200)
+    doc.setFont('undefined', undefined, 200)
     doc.text("Date: " + this.myFormattedDate, 195, 10, { align: 'right' })
-    doc.save("Licenses : " + this.myFormattedDate.toString() + '.pdf');
+    doc.save("Licenses : " + this.myFormattedDate?.toString() + '.pdf');
   }
 
   printTable() {
     let printContent = document.getElementById("licenseTable");
     let WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    WindowPrt.document.write(printContent.innerHTML);
-    WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
-    WindowPrt.close();
+    WindowPrt?.document.write(printContent?.innerHTML!);
+    WindowPrt?.document.close();
+    WindowPrt?.focus();
+    WindowPrt?.print();
+    WindowPrt?.close();
   }
   // filter MatTableDataSource by a key value
   applyFilter(event: Event) {

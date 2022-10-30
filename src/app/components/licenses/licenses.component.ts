@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Injectable, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ComponentType, ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { throwError } from 'rxjs';
+import { skipWhile, Subject, takeUntil, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/Application';
@@ -21,6 +21,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { faCalendar, faCalendarTimes, faCalendarXmark, faCircleExclamation, faClock, faCoffee, faLock, faMoneyBill, faMoneyBill1Wave, faPlus, faPlusCircle, faRepeat, faTabletButton, faTrash, faTrashArrowUp, faTrashRestore, faTrashRestoreAlt, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { ExtendkeyComponent } from '../dialogModels/extendkey/extendkey.component';
 import { UpdatepricesComponent } from '../dialogModels/updateprices/updateprices.component';
+import { Store } from '@ngrx/store';
+import * as LicenseSelector from 'src/app/state/selector/license.selector';
+import * as LicenseActions from 'src/app/state/actions/license.actions';
+import { ModalSubscriptionService } from 'src/app/services/modal-subscription.service';
 
 @Component({
   selector: 'app-licenses',
@@ -31,9 +35,11 @@ import { UpdatepricesComponent } from '../dialogModels/updateprices/updateprices
   providedIn: 'root',
 })
 
-export class LicensesComponent implements OnInit {
+export class LicensesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  unsubscribe$ = new Subject<void>()
+  licenses$ = this.store.select(LicenseSelector.getAll)
   isEmpty: boolean = false;
   displayedColumns: any[] = ['id', 'authKey', 'hwid', 'ownerId', 'expirationDate', 'isOwned', 'hwid-reset', 'extend-key', 'delete'];
   dataSource: MatTableDataSource<KeyLicense>
@@ -43,7 +49,6 @@ export class LicensesComponent implements OnInit {
   static applicationId: number;
   modalRef: BsModalRef;
   selectedId: number;
-  userBalance: number;
   selectedApp: Application = new Application;
   matTableExporter: any;
   pipe = new DatePipe('en-US');
@@ -65,15 +70,29 @@ export class LicensesComponent implements OnInit {
   faCalendar = faCalendarXmark
   myFormattedDate = this.pipe.transform(this.now, 'short');
   @Input() data: string = "test data";
-  constructor(private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
+  constructor(private modalSubService: ModalSubscriptionService, private store: Store, private authService: AuthService, private applicationService: ApplicationService, private licenseService: LicenseService, private matDialog: MatDialog, private modalService: BsModalService, private toastrService: ToastrService, private userService: UserService) { }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+  }
 
   ngOnInit(): void {
     this.getAppById()
-    this.getLicenses()
-    this.getUserDetails()
     this.disableDivs()
+    this.subscribeActions()
   }
 
+
+  subscribeActions() {
+    this.modalSubService.closeModalObservable$
+      .pipe(skipWhile(x => x != "keyremove"),
+        takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: () => {
+          this.modalRef.hide()
+        }
+      })
+  }
 
 
   deleteUnusedKeys() {
@@ -167,20 +186,7 @@ export class LicensesComponent implements OnInit {
     })
   }
 
-  getUserDetails() {
-    this.userService.getUserDetails().subscribe({
-      next: (response) => {
-        this.userBalance = response.data.balance
-      }, error: (error) => {
-        if (error.error.message != null) {
-          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
-        }
-        else {
-          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
-        }
-      }
-    })
-  }
+
   getLicenses() {
     this.licenseService.getLicenses().subscribe({
       next: (response) => {
@@ -231,7 +237,6 @@ export class LicensesComponent implements OnInit {
     dialogConfig.height = '300px';
     this.matDialog.open(component, dialogConfig).afterClosed().subscribe(result => {
       this.getLicenses()
-      this.getUserDetails()
     });
   }
 
@@ -270,21 +275,7 @@ export class LicensesComponent implements OnInit {
   }
 
   deleteKey() {
-    this.licenseService.deleteLicense(this.selectedId).subscribe({
-      next: (response) => {
-        this.toastrService.success(response.message, "Success", { positionClass: "toast-bottom-right" })
-      }, error: (error) => {
-        if (error.error.message != null) {
-          this.toastrService.error(error.error.message, "Error", { positionClass: 'toast-bottom-right' })
-        }
-        else {
-          this.toastrService.error("Connection server error!", "Error", { positionClass: 'toast-bottom-right' })
-        }
-      }, complete: () => {
-        this.getLicenses()
-        this.modalRef.hide()
-      }
-    })
+    this.store.dispatch(LicenseActions.remove({ licenseId: this.selectedId }))
   }
 
   disableApplication() {

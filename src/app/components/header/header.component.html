@@ -1,0 +1,5 @@
+<div class="mat-elevation-z4 p-3 mb-3">
+    <div  class="d-flex justify-content-end">
+        <span *ngIf="(info$|async)"><span class="fw-bold">Balance:</span> {{(info$|async)?.balance | currency:'USD':true:'1.0-2'}}</span>
+    </div>
+</div>

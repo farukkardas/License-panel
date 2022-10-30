@@ -12,7 +12,7 @@ export class SidebarComponent implements OnInit {
   constructor(private authService: AuthService) { }
   navData = navbarData;
   collapsed: boolean = false;
-  parentData: string;
+  parentData?: string;
   screenWidth = 0;
   @Output() onToggleSidenav: EventEmitter<SidenavToggle> = new EventEmitter();
   @HostListener('window:resize', ['$event'])

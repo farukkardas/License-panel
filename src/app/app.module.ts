@@ -31,8 +31,17 @@ import { CreateapplicationComponent } from './components/dialogModels/createappl
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ExtendkeyComponent } from './components/dialogModels/extendkey/extendkey.component';
 import { UpdatepricesComponent } from './components/dialogModels/updateprices/updateprices.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { BodyComponent } from './components/body/body.component';
+import { HeaderComponent } from './components/header/header.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { metaReducers, reducers } from './state';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './state/effects/user.effects';
+import { environment } from 'src/environments/environment';
+import { LicenseEffects } from './state/effects/license.effects';
+import { NotificationEffects } from './state/effects/notification.effects';
 
 
 @NgModule({
@@ -49,8 +58,8 @@ import { BodyComponent } from './components/body/body.component';
     CreateapplicationComponent,
     ExtendkeyComponent,
     UpdatepricesComponent,
-    FooterComponent,
-    BodyComponent
+    BodyComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -72,8 +81,13 @@ import { BodyComponent } from './components/body/body.component';
     ModalModule.forRoot(),
     ClipboardModule,
     MatSidenavModule,
-    FontAwesomeModule
-  ], 
+    FontAwesomeModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }) : [],
+
+    StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([UserEffects,LicenseEffects,NotificationEffects])
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

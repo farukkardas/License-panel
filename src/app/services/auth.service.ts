@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/ResponseModel';
 import { TimeModel } from '../models/timeModel';
 import jwt_decode from "jwt-decode";
+// @ts-ignore
 import * as CryptoJS from 'crypto-js';
 
 @Injectable({
